@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1 class="text-2xl font-bold mb-4">Suralar</h1>
+
+<div class="overflow-x-auto rounded-2xl border bg-white/80 dark:bg-slate-900/60">
+  <table class="min-w-full text-sm">
+    <thead class="bg-slate-50/70 dark:bg-slate-900/40">
+      <tr class="text-left">
+        <th class="p-3">Sura nomi</th>
+        <th class="p-3">Arabcha</th>
+        <th class="p-3">Nuzul</th>
+        <th class="p-3">Oyat</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for s in suras %}
+      <tr class="border-t dark:border-slate-800/60 hover:bg-slate-50/60 dark:hover:bg-slate-800/40">
+        <td class="p-3">
+          <a class="font-semibold hover:underline"
+             href="{% url 'sura_detail' s.index %}">
+            {{ s.index }}. {{ s.name_uz }} surasi
+          </a>
+        </td>
+        <td class="p-3 ar text-xl">{{ s.name_ar }}</td>
+        <td class="p-3">
+          {% if s.nuzul_order %}{{ s.nuzul_order }} — {% endif %}
+          {% if s.nuzul_place %}{{ s.nuzul_place }}{% endif %}
+        </td>
+        <td class="p-3">{% if s.ayat_count %}{{ s.ayat_count }}{% endif %}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

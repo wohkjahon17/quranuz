@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="text-3xl font-bold mb-6">Qidiruv</h1>
+<form method="get" class="flex gap-2 mb-6">
+  <input name="q" value="{{q}}" class="flex-1 rounded-xl border px-4 py-3 border-slate-300 dark:border-slate-700 dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-600" placeholder="Matn kiriting (arabcha)">
+  <button class="rounded-xl bg-gradient-to-r from-brand-600 to-indigo-600 text-white px-5 py-3 hover:scale-[1.02] transition">Qidir</button>
+</form>
+
+{% if q %}
+<div class="grid md:grid-cols-2 gap-6">
+  <div>
+    <h2 class="font-semibold mb-3">Suralar</h2>
+    <div class="grid gap-3">
+      {% for s in sura_results %}
+      <a href="{% url 'sura_detail' s.index %}" class="rounded-2xl border p-4 bg-white/80 dark:bg-slate-900/60 hover:shadow-glow transition">
+        <div class="text-xs text-slate-500">#{{s.index}}</div>
+        <div class="ar text-xl">{{s.name_ar}}</div>
+      </a>
+      {% empty %}<div class="text-slate-500">Topilmadi</div>{% endfor %}
+    </div>
+  </div>
+  <div>
+    <h2 class="font-semibold mb-3">Oyatlar</h2>
+    <div class="grid gap-3">
+      {% for a in ayah_results %}
+      <a href="{% url 'sura_detail' a.surah.index %}#{{a.number_in_surah}}" class="rounded-2xl border p-4 bg-white/80 dark:bg-slate-900/60 hover:shadow-glow transition">
+        <div class="text-xs text-slate-500">{{a.surah.index}}:{{a.number_in_surah}}</div>
+        <div class="ar text-xl leading-[36px]">{{a.text_ar}}</div>
+      </a>
+      {% empty %}<div class="text-slate-500">Topilmadi</div>{% endfor %}
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
