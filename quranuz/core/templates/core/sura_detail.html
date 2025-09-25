@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+{% block title %}Sura {{ sura_no }} — Turon Ilm-Fan{% endblock %}
+{% block content %}
+  <div style="background:#ffffffcc;border:1px solid #1e40af33;border-radius:10px;padding:12px 14px;">
+    <h2>Sura: {{ sura_no }}</h2>
+    {% if ayah %}<p>Oyat: {{ ayah }}</p>{% endif %}
+    <p>(Bu sahifaga keyinchalik sura matni va tarjimalarini qo‘shamiz.)</p>
+  </div>
+
+<!-- Sana chipi: o‘ng yuqori -->
+<div class="flex items-center justify-between mb-4">
+  <div></div>
+  <div class="text-right text-xs sm:text-sm">
+    <span class="inline-flex items-center gap-2 rounded-md border px-3 py-1.5
+                 bg-white/80 dark:bg-slate-900/60">
+      <span>{{ greg_date }}</span>
+      {% if hijri_date %}<span class="opacity-60">•</span><span>{{ hijri_date }}</span>{% endif %}
+    </span>
+  </div>
+</div>
+
+<!-- Sarlavha -->
+<div class="mb-4">
+  <h1 class="text-2xl font-bold text-slate-800 dark:text-slate-100">
+    {{ sura.index }}. {{ sura.name_uz }} surasi
+  </h1>
+  <div class="ar text-2xl mt-1">{{ sura.name_ar }}</div>
+</div>
+
+{% if sura.index == 1 %}
+  {# ---------------- FOTIHA: 2 USTUN (chap: arabcha, o‘ng: o‘zbekcha) ---------------- #}
+  <div class="grid md:grid-cols-2 gap-6 items-start">
+
+    <!-- CHAP: arabcha panel -->
+    <div class="rounded-2xl border-2 border-indigo-300/60 bg-white/80 dark:bg-slate-900/50 shadow-md overflow-hidden">
+      <div class="m-3 rounded-xl border-2 border-indigo-200/70 p-4">
+        <div class="ar text-center text-xl font-semibold mb-4">
+          <span class="inline-block px-4 py-1 rounded-md border bg-white/80 dark:bg-slate-900/70">
+            سُورَةُ الفَاتِحَة — مَكِّيَّة • ٧ آيات • ترتيب النزول ٥
+          </span>
+        </div>
+        <div class="ar text-3xl text-center my-3">
+          بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ
+        </div>
+        <div class="ar text-2xl leading-[2.3rem] text-center px-2 md:px-6 pb-2">
+          <p class="my-2">
+            ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَالَمِينَ <span class="mx-2 text-slate-500">۝١</span>
+            ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ <span class="mx-2 text-slate-500">۝٢</span>
+            مَـٰلِكِ يَوْمِ ٱلدِّينِ <span class="mx-2 text-slate-500">۝٣</span>
+          </p>
+          <p class="my-2">
+            إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ <span class="mx-2 text-slate-500">۝٤</span>
+            ٱهْدِنَا ٱلصِّرَاطَ ٱلْمُسْتَقِيمَ <span class="mx-2 text-slate-500">۝٥</span>
+          </p>
+          <p class="my-2">
+            صِرَاطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ
+            غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّالِّينَ
+            <span class="mx-2 text-slate-500">۝٧</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- O‘NG: o‘zbekcha mazmun (dark’da ham o‘qiladi) -->
+    <div class="rounded-2xl border p-5 bg-white/80 dark:bg-slate-900/60">
+      <div class="text-sm text-slate-700 dark:text-slate-300 mb-3">
+        Makka · 7 oyat · Nuzul tartibi: 5
+      </div>
+      <ol class="list-decimal space-y-2 pl-5 text-slate-800 dark:text-slate-100">
+        <li>Mehribon va rahmli Alloh nomi bilan.</li>
+        <li>Hamd – olamlar Parvardigoriga.</li>
+        <li>U Mehribon va Rahmlidir.</li>
+        <li>Jazo (hisob) kunining Egasi.</li>
+        <li>(Parvardigor!) Faqat Senga ibodat qilamiz va faqat Sendan yordam so‘raymiz.</li>
+        <li>Bizni to‘g‘ri yo‘lga boshlagin,</li>
+        <li>ne’mat bergan zotlarning yo‘liga; g‘azabga uchraganlar va adashganlarning emas.</li>
+      </ol>
+    </div>
+  </div>
+
+{% elif sura.index == 2 %}
+  {# ---------- BAQARA (2) — 2 ustun ---------- #}
+  <div class="grid md:grid-cols-2 gap-6 items-start">
+    <!-- CHAP: arabcha panel -->
+    <div class="rounded-2xl border-2 border-indigo-300/60 bg-white/80 dark:bg-slate-900/50 shadow-md overflow-hidden">
+      <div class="m-3 rounded-xl border-2 border-indigo-200/70 p-4">
+        <div class="ar text-center text-xl font-semibold mb-4">
+          <span class="inline-block px-4 py-1 rounded-md border bg-white/80 dark:bg-slate-900/70">
+            سُورَةُ البَقَرَة — مَدَنِيَّة • ٢٨٦ آية • ترتيب النزول ٨٧
+          </span>
+        </div>
+
+        <!-- Oyatlar (1–5) arabcha, bezakli sahifa uslubi) -->
+        <div class="ar text-2xl leading-[2.3rem] text-center px-2 md:px-6 pb-2">
+          <p class="my-2">
+            الم <span class="mx-2 text-slate-500">۝١</span>
+          </p>
+          <p class="my-2">
+            ذَٰلِكَ ٱلْكِتَابُ لَا رَيْبَ فِيهِ هُدًى لِّلْمُتَّقِينَ
+            <span class="mx-2 text-slate-500">۝٢</span>
+          </p>
+          <p class="my-2">
+            ٱلَّذِينَ يُؤْمِنُونَ بِٱلْغَيْبِ وَيُقِيمُونَ ٱلصَّلَاةَ
+            وَمِمَّا رَزَقْنَـٰهُمْ يُنفِقُونَ
+            <span class="mx-2 text-slate-500">۝٣</span>
+          </p>
+          <p class="my-2">
+            وَٱلَّذِينَ يُؤْمِنُونَ بِمَآ أُنزِلَ إِلَيْكَ وَمَآ أُنزِلَ مِن
+            قَبْلِكَ وَبِٱلْـَٔاخِرَةِ هُمْ يُوقِنُونَ
+            <span class="mx-2 text-slate-500">۝٤</span>
+          </p>
+          <p class="my-2">
+            أُو۟لَـٰٓئِكَ عَلَىٰ هُدًۭى مِّن رَّبِّهِمْ
+            وَأُو۟لَـٰٓئِكَ هُمُ ٱلْمُفْلِحُونَ
+            <span class="mx-2 text-slate-500">۝٥</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- O‘NG: o‘zbekcha mazmun (dark’da o‘qilishi aniq) -->
+    <div class="rounded-2xl border p-5 bg-white/80 dark:bg-slate-900/60">
+      <div class="text-sm text-slate-700 dark:text-slate-300 mb-3">
+        Madaniy · 286 oyat · Nuzul tartibi: 87
+      </div>
+      <ol class="list-decimal space-y-2 pl-5 text-slate-800 dark:text-slate-100">
+        <li>Alif. Lom. Mim.</li>
+        <li>Bu Kitob – unda aslo shubha yo‘q – muttasilarga hidoyatdir.</li>
+        <li>Ular g‘aybga iymon keltiradilar, namozni ado etadilar va Biz ularga bergan rizqdan (Alloh yo‘lida) sarflaydilar.</li>
+        <li>(Ey Muhammad!) Sizga nozil qilinganga ham, sizdan avval nozil qilinganlarga ham iymon keltiradilar
+            va oxiratga qat’iy ishonadilar.</li>
+        <li>Ana o‘shalar – Parvardigoridan hidoyat ustidadirlar va ana o‘shalar najot topuvchilardir.</li>
+      </ol>
+    </div>
+  </div>
+
+{% elif sura.index == 3 %}
+  {# ---------- OLI IMRON (3) — 2 ustun ---------- #}
+  <div class="grid md:grid-cols-2 gap-6 items-start">
+
+    {# CHAP: arabcha panel (bezatilib) #}
+    <div class="rounded-2xl border-2 border-indigo-300/60 bg-white/80 dark:bg-slate-900/50 shadow-md overflow-hidden">
+      <div class="m-3 rounded-xl border-2 border-indigo-200/70 p-4">
+        <div class="ar text-center text-xl font-semibold mb-4">
+          <span class="inline-block px-4 py-1 rounded-md border bg-white/80 dark:bg-slate-900/70">
+            سُورَةُ آلِ عِمْرَان — مَدَنِيَّة • ٢٠٠ آية • ترتيب النزول ٨٩
+          </span>
+        </div>
+
+        <!-- 1–4-oyatlar (arabcha) -->
+        <div class="ar text-2xl leading-[2.3rem] text-center px-2 md:px-6 pb-2">
+          <p class="my-2">
+            الم <span class="mx-2 text-slate-500">۝١</span>
+          </p>
+          <p class="my-2">
+            ٱللَّهُ لَآ إِلَـٰهَ إِلَّا هُوَ ٱلْحَىُّ ٱلْقَيُّومُ
+            <span class="mx-2 text-slate-500">۝٢</span>
+          </p>
+          <p class="my-2">
+            نَزَّلَ عَلَيْكَ ٱلْكِتَابَ بِٱلْحَقِّ مُصَدِّقًا لِّمَا بَيْنَ يَدَيْهِ
+            وَأَنزَلَ ٱلتَّوْرَىٰةَ وَٱلْإِنجِيلَ
+            <span class="mx-2 text-slate-500">۝٣</span>
+          </p>
+          <p class="my-2">
+            مِن قَبْلُ هُدًى لِّلنَّاسِ وَأَنزَلَ ٱلْفُرْقَانَ ۗ
+            إِنَّ ٱلَّذِينَ كَفَرُوا۟ بِـَٔايَـٰتِ ٱللَّهِ لَهُمْ عَذَابٌۭ شَدِيدٌۭ
+            <span class="mx-2 text-slate-500">۝٤</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    {# O‘NG: o‘zbekcha mazmun (dark’da ham tiniq) #}
+    <div class="rounded-2xl border p-5 bg-white/80 dark:bg-slate-900/60">
+      <div class="text-sm text-slate-700 dark:text-slate-300 mb-3">
+        Madaniy · 200 oyat · Nuzul tartibi: 89
+      </div>
+      <ol class="list-decimal space-y-2 pl-5 text-slate-800 dark:text-slate-100">
+        <li><i>Alif. Lom. Mim.</i></li>
+        <li>Alloh – Undan o‘zga iloh yo‘q; U tirik va Qayyumdir.</li>
+        <li>U Sizga Kitobni (Qur’onni) haq bilan, undan oldingi kitoblarni tasdiqlovchi qilib nozil qildi
+            va (avval) Tavrot hamda Injilni nozil qilgan.</li>
+        <li>Ularni ilgari odamlar uchun hidoyat qilib nozil qilgan va (endi) Furqonni nozil qildi.
+            Albatta Allohning oyatlariga kufr keltirganlar uchun shiddatli azob bordir.</li>
+      </ol>
+    </div>
+
+  </div>
+
+
+{% else %}
+  {# -------- Boshqa suralar: odatiy ko‘rinish (o‘zbek matn ranglari dark’da ham aniq) -------- #}
+  <div class="mb-6 text-slate-700 dark:text-slate-300 text-sm">
+    {% if sura.nuzul_place %}{{ sura.nuzul_place }}{% endif %}
+    {% if sura.nuzul_order %} · Nuzul tartibi: {{ sura.nuzul_order }}{% endif %}
+    {% if sura.ayat_count %} · Oyatlar soni: {{ sura.ayat_count }}{% endif %}
+  </div>
+
+  <div class="space-y-6">
+    {% for a in ayahs %}
+    <div id="{{ a.number_in_surah }}" class="rounded-xl border p-4 bg-white/90 dark:bg-slate-900/60">
+      <div class="text-xs text-slate-500 mb-2">{{ sura.index }} : {{ a.number_in_surah }}</div>
+      <div class="ar text-2xl leading-relaxed">{{ a.text_ar }}</div>
+    </div>
+    {% empty %}
+    <div class="text-slate-500">Bu sura uchun oyatlar hali qo‘shilmagan.</div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<!-- Pastki navigatsiya: ro‘yxatga qaytish -->
+<div class="mt-10 text-center">
+  <a href="{% url 'suralar' %}"
+     class="inline-flex items-center gap-2 px-4 py-2 rounded-md border
+            hover:bg-white/60 dark:hover:bg-slate-800/60 transition">
+    ← Suralar ro‘yxatiga qaytish
+  </a>
+</div>
+
+{% endblock %}

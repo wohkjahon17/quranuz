@@ -1,0 +1,100 @@
+
+<!-- AYETE DIREKT ERİŞİM -->
+<div class="rounded-xl border border-slate-300/60 bg-white/95 dark:bg-slate-900/70 shadow-sm overflow-hidden mb-6">
+  <!-- Header -->
+  <div class="bg-[#183B63] text-white px-4 py-2 text-lg font-semibold tracking-wide">
+    Oyatga to'g'ridan-to'g'ri kirish
+  </div>
+
+  <div class="p-4">
+    <!-- Dekorativ tab tugmalar (faqat ko‘rinish uchun) -->
+    <div class="flex gap-2 mb-3">
+      <span class="px-3 py-1 border rounded bg-white/80 dark:bg-slate-800/80 text-slate-700 dark:text-slate-200 shadow-sm">Qurʼon</span>
+      <span class="px-3 py-1 border rounded bg-white/50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300">Nuzul</span>
+      <span class="px-3 py-1 border rounded bg-white/50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300">Harf</span>
+    </div>
+
+    <form action="{% url 'sura_goto' %}" method="get" class="space-y-3">
+      <label class="block text-sm font-medium text-slate-700 dark:text-slate-200">
+        Qurʼon surasi
+      </label>
+
+      <select name="s" class="w-full rounded border border-slate-300 bg-white/90 dark:bg-slate-800/80 text-slate-800 dark:text-slate-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500">
+        {% if suralar %}
+          {% for s in suralar %}
+            <option value="{{ s.number|default:s.id }}">{{ s.number|default:s.id }} — {{ s.name_tr|default:s.title }}</option>
+          {% endfor %}
+        {% elif sura_list %}
+          {% for s in sura_list %}
+            <option value="{{ s.number|default:s.id }}">{{ s.number|default:s.id }} — {{ s.name_tr|default:s.title }}</option>
+          {% endfor %}
+        {% else %}
+          <option value="">Surani Tanlang!</option>
+        {% endif %}
+      </select>
+
+      <div class="flex gap-2">
+        <input type="number" name="a" min="1" placeholder="Oyat"
+               class="flex-1 rounded border border-slate-300 bg-white/90 dark:bg-slate-800/80 text-slate-800 dark:text-slate-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500">
+        <button type="submit"
+                class="px-4 py-2 rounded bg-[#183B63] text-white hover:bg-[#14425f] transition shadow">
+          Qidirish
+        </button>
+      </div>
+      <p class="text-xs text-slate-500 dark:text-slate-400">
+        * Sura tanlang va oyat raqamini kiriting.
+      </p>
+    </form>
+  </div>
+</div>
+
+<!-- SAYFAYA GİT -->
+<div class="rounded-xl border border-slate-300/60 bg-white/95 dark:bg-slate-900/70 shadow-sm overflow-hidden mb-6">
+  <div class="bg-[#183B63] text-white px-4 py-2 text-lg font-semibold tracking-wide">
+    Sahifaga o'tish!
+  </div>
+
+  <div class="p-4">
+    <form action="{% url 'page_goto' %}" method="get" class="flex gap-2">
+      <input type="number" name="p" value="{{ request.GET.p|default:1 }}" min="1"
+             class="w-24 rounded border border-slate-300 bg-white/90 dark:bg-slate-800/80 text-slate-800 dark:text-slate-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500">
+      <button type="submit"
+              class="px-4 py-2 rounded bg-[#183B63] text-white hover:bg-[#14425f] transition shadow">
+        Qidirish 
+      </button>
+    </form>
+    <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">
+      * Mushafdagi sahifa raqami bo‘yicha.
+    </p>
+  </div>
+</div>
+
+<!-- SUREYE GİT -->
+<div class="rounded-xl border border-slate-300/60 bg-white/95 dark:bg-slate-900/70 shadow-sm overflow-hidden">
+  <div class="bg-[#183B63] text-white px-4 py-2 text-lg font-semibold tracking-wide">
+    Suraga borish!
+  </div>
+
+  <div class="p-4">
+    <form action="{% url 'sura_goto' %}" method="get" class="flex gap-2">
+      <select name="s" class="flex-1 rounded border border-slate-300 bg-white/90 dark:bg-slate-800/80 text-slate-800 dark:text-slate-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500">
+        {% if suralar %}
+          {% for s in suralar %}
+            <option value="{{ s.number|default:s.id }}">{{ s.number|default:s.id }} — {{ s.name_tr|default:s.title }}</option>
+          {% endfor %}
+        {% elif sura_list %}
+          {% for s in sura_list %}
+            <option value="{{ s.number|default:s.id }}">{{ s.number|default:s.id }} — {{ s.name_tr|default:s.title }}</option>
+          {% endfor %}
+        {% else %}
+          <option value="">Surani Tanlang!</option>
+        {% endif %}
+      </select>
+
+      <button type="submit"
+              class="px-4 py-2 rounded bg-[#183B63] text-white hover:bg-[#14425f] transition shadow">
+        Qidirish
+      </button>
+    </form>
+  </div>
+</div>

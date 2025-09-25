@@ -1,0 +1,68 @@
+{% load static %}
+
+<style>
+  .blue-frame{
+    position:relative;
+    border:1px solid #2b59c3;       /* asosiy ko‘k chiziq */
+    border-radius:16px;
+  }
+  .blue-frame::after{
+    content:"";
+    position:absolute; inset:-6px;
+    border:1px solid rgba(43,89,195,.25); /* tashqi “halo” */
+    border-radius:20px;
+    pointer-events:none;
+  }
+</style>
+
+<div class="sticky top-6">
+
+  <!-- MENYULAR QUTISI: ko‘k ramka bilan -->
+  <div class="blue-frame bg-white/70 dark:bg-slate-900/70 shadow-sm">
+    <div class="rounded-t-[15px] bg-gradient-to-r from-blue-700 to-indigo-700 text-white px-4 py-2 font-semibold">
+      Menyular
+    </div>
+
+    <nav class="p-3 space-y-1 text-[15px]">
+      <a href="{% url 'home' %}"
+         class="block px-3 py-2 rounded-md hover:bg-blue-50 hover:text-blue-700 dark:hover:bg-slate-800/60">
+        Asosiy sahifa
+      </a>
+      <a href="{% url 'suralar' %}"
+         class="block px-3 py-2 rounded-md hover:bg-blue-50 hover:text-blue-700 dark:hover:bg-slate-800/60">
+        Suralar
+      </a>
+      <a href="{% url 'kokler' %}"
+         class="block px-3 py-2 rounded-md hover:bg-blue-50 hover:text-blue-700 dark:hover:bg-slate-800/60">
+        Ildizlar
+      </a>
+      <a href="{% url 'fihrist' %}"
+         class="block px-3 py-2 rounded-md hover:bg-blue-50 hover:text-blue-700 dark:hover:bg-slate-800/60">
+        Fihrist
+      </a>
+
+      <!-- Yangi qo‘shimcha bo‘limlar -->
+      <a href="{% url 'taqqoslash' %}"
+         class="block px-3 py-2 rounded-md hover:bg-blue-50 hover:text-blue-700 dark:hover:bg-slate-800/60">
+        Oyatlarni taqqoslash
+      </a>
+      <a href="{% url 'satrlar' %}"
+         class="block px-3 py-2 rounded-md hover:bg-blue-50 hover:text-blue-700 dark:hover:bg-slate-800/60">
+        Satrlar
+      </a>
+      <a href="{% url 'el_mufredat' %}"
+         class="block px-3 py-2 rounded-md hover:bg-blue-50 hover:text-blue-700 dark:hover:bg-slate-800/60">
+        Al-Mufredat
+      </a>
+      <a href="{% url 'el_mucem' %}"
+         class="block px-3 py-2 rounded-md hover:bg-blue-50 hover:text-blue-700 dark:hover:bg-slate-800/60">
+        Al-Mu‘jam Al-Mufahres
+      </a>
+
+      <a href="{% url 'search' %}"
+         class="block px-3 py-2 rounded-md hover:bg-blue-50 hover:text-blue-700 dark:hover:bg-slate-800/60">
+        Qur'onda qidirish
+      </a>
+    </nav>
+  </div>
+</div>

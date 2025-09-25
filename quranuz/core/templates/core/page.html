@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Sahifaga yoki suraga o'tish{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+
+  <!-- Oyatga to'g'ridan-to'g'ri kirish -->
+  <div class="rounded-xl border border-slate-200/70 dark:border-slate-800/60 overflow-hidden">
+    <div class="px-4 py-3 text-white bg-[#0f4c3a]">
+      <b>Oyatga to'g'ridan-to'g'ri kirish</b>
+    </div>
+    <div class="p-4 space-y-3">
+      <div class="flex gap-2">
+        <button type="button" class="px-3 py-1.5 rounded-md text-white bg-[#0f4c3a] hover:bg-[#0d3f31]">Qur’on</button>
+        <button type="button" class="px-3 py-1.5 rounded-md border bg-white dark:bg-slate-900">Nuzul</button>
+        <button type="button" class="px-3 py-1.5 rounded-md border bg-white dark:bg-slate-900">Harf</button>
+      </div>
+
+      <label class="block text-sm text-slate-600 dark:text-slate-300">Qur’on surasi</label>
+      <select class="w-full px-3 py-2 rounded-md border form-control">
+        <option>Surani Tanlang!</option>
+      </select>
+
+      <div class="flex gap-2">
+        <input class="w-full px-3 py-2 rounded-md border form-control" placeholder="Oyat">
+        <button class="px-4 py-2 rounded-md text-white bg-[#0f4c3a] hover:bg-[#0d3f31]">Qidirish</button>
+      </div>
+
+      <p class="text-xs text-slate-500">* Sura tanlang va oyat raqamini kiriting.</p>
+    </div>
+  </div>
+
+  <!-- Sahifaga o'tish -->
+  <div class="rounded-xl border border-slate-200/70 dark:border-slate-800/60 overflow-hidden">
+    <div class="px-4 py-3 text-white bg-[#0f4c3a]">
+      <b>Sahifaga o'tish!</b>
+    </div>
+    <div class="p-4 space-y-3">
+      <div class="flex gap-2">
+        <input class="w-32 px-3 py-2 rounded-md border form-control" type="number" min="1" value="{{ page_no|default:1 }}">
+        <button class="px-4 py-2 rounded-md text-white bg-[#0f4c3a] hover:bg-[#0d3f31]">Qidirish</button>
+      </div>
+      <p class="text-xs text-slate-500">* Mushafdagi sahifa raqami bo‘yicha.</p>
+    </div>
+  </div>
+
+  <!-- Suraga borish -->
+  <div class="rounded-xl border border-slate-200/70 dark:border-slate-800/60 overflow-hidden">
+    <div class="px-4 py-3 text-white bg-[#0f4c3a]">
+      <b>Suraga borish!</b>
+    </div>
+    <div class="p-4 space-y-3">
+      <div class="flex gap-2">
+        <select class="w-full px-3 py-2 rounded-md border form-control">
+          <option>Surani Tanlang!</option>
+        </select>
+        <button class="px-4 py-2 rounded-md text-white bg-[#0f4c3a] hover:bg-[#0d3f31]">Qidirish</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

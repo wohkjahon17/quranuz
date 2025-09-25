@@ -1,0 +1,229 @@
+{% load static %}
+<!doctype html>
+<html lang="uz" class="h-full"
+  x-data="{ dark: (localStorage.theme === 'dark') }"
+  x-init="$watch('dark', v => { localStorage.theme = v ? 'dark' : 'light'; v ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark') })">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{% block title %}Turon Ilm-Fan{% endblock %}</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: { brand: { 600: '#0f5a46' } },   // << YASHIL
+        boxShadow: {
+          inset1: 'inset 0 1px 0 rgba(255,255,255,.5)',
+          glow: '0 10px 40px rgba(15,90,70,.15)'
+        },
+        borderRadius: { xl2: '1rem' }
+      }
+    }
+  }
+</script>
+
+
+  <!-- Alpine -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Local styles for the “double frame” look -->
+<style>
+  body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif}
+  .ar{font-family:"Noto Naskh Arabic",serif;direction:rtl}
+  .brand-script{font-family:'Great Vibes','Brush Script MT',cursive}
+
+  :root{
+    /* brend ranglari */
+    --brand-600:#0f5a46;
+    --brand-600-28:rgba(15,90,70,.28);
+    --brand-600-08:rgba(15,90,70,.08);
+
+    /* global override uchun */
+    --brand-green:#0f4c3a;
+    --brand-green-700:#0d3f31;
+  }
+
+  /* ikki qavatli ramka */
+  .frame-blue{position:relative;border:1px solid var(--brand-600);border-radius:14px}
+  .frame-blue::after{content:"";position:absolute;inset:-6px;border:1px solid var(--brand-600-28);border-radius:18px;pointer-events:none}
+
+  .frame-silver{position:relative;border:1px solid rgba(15,23,42,.12);border-radius:14px;background-color:rgba(255,255,255,.7)}
+  .dark .frame-silver{background-color:rgba(2,6,23,.6);border-color:rgba(148,163,184,.15)}
+  .frame-silver::after{content:"";position:absolute;inset:-6px;border:1px solid rgba(15,23,42,.08);border-radius:18px;pointer-events:none}
+  .dark .frame-silver::after{border-color:rgba(148,163,184,.08)}
+
+  .link-pill{display:inline-block;padding:.25rem .75rem;border-radius:.5rem;color:var(--brand-600);transition:all .15s}
+  .link-pill:hover{background:var(--brand-600-08)}
+  .dark .link-pill{color:#7bd3b6}
+  .dark .link-pill:hover{background:rgba(148,163,184,.08)}
+
+  /* ====== KO'K -> YASHIL GLOBAL OVERRIDE ====== */
+  /* Tailwind oilalari: istalgan “blue/indigo/sky” soyasi */
+  [class*="bg-blue-"], [class*="bg-indigo-"], [class*="bg-sky-"] { background-color: var(--brand-green) !important; }
+  [class*="border-blue-"], [class*="border-indigo-"], [class*="border-sky-"] { border-color: var(--brand-green) !important; }
+  [class*="text-blue-"], [class*="text-indigo-"], [class*="text-sky-"] { color: var(--brand-green) !important; }
+
+  /* Arbitrary rang ishlatilgan bo‘lsa, masalan bg-[#0b2d5d] */
+  .bg-\[\#0b2d5d\], .border-\[\#0b2d5d\] {
+    background-color: var(--brand-green) !important;
+    border-color: var(--brand-green) !important;
+  }
+
+  /* Bootstrap’ga mos */
+  .card, .panel { border-color: var(--brand-green) !important; }
+  .card-header, .panel-heading { background: var(--brand-green) !important; color:#fff !important; border-color: var(--brand-green) !important; }
+  .btn, .btn-primary { background: var(--brand-green) !important; border-color: var(--brand-green) !important; color:#fff !important; }
+  .btn:hover, .btn-primary:hover { background: var(--brand-green-700) !important; border-color: var(--brand-green-700) !important; }
+
+  /* Input focus – yashil aurali */
+  input[type="text"], input[type="number"], select, .form-control {
+    border-radius:10px;
+    border:1px solid rgba(15,76,58,.25);
+  }
+  input:focus, select:focus, .form-control:focus {
+    outline:none;
+    border-color:var(--brand-green) !important;
+    box-shadow:0 0 0 3px rgba(15,76,58,.15) !important;
+  }
+</style>
+
+</head>
+
+<body class="min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100"
+      style="background-image:url('{% static "img/pattern.png.png" %}');background-repeat:repeat;background-size:auto;">
+
+  <!-- === TOP DATE STRIP === -->
+  <div class="bg-white/80 dark:bg-slate-900/80 border-b border-slate-200/70 dark:border-slate-800/70">
+    <div class="max-w-7xl mx-auto px-4 py-2 flex items-center justify-between text-sm">
+      <div class="flex items-center gap-4">
+        <div><b>{{ greg_date_uz }}</b></div>
+        <div><span class="ar">{{ hijri_date_ar }}</span></div>
+      </div>
+      <button @click="dark=!dark"
+              class="rounded-md px-3 py-1.5 text-xs bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700">
+        <span x-show="!dark">🌙 Qorong‘i</span>
+        <span x-show="dark">☀️ Yorug‘</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- === HEADER (Logo + Title + Top nav) === -->
+  <header class="bg-white/85 dark:bg-slate-900/85 backdrop-blur">
+    <div class="max-w-7xl mx-auto px-4 py-5 flex flex-col items-center gap-3">
+      <div class="frame-blue bg-white/70 dark:bg-slate-900/70 shadow-sm px-5 py-3">
+        <a href="{% url 'home' %}" class="flex items-center gap-4">
+          <img src="{% static 'img/turon-logo.png.webp' %}" alt="Turon" class="h-14 w-14 md:h-16 md:w-16 object-contain">
+          <div class="brand-script text-4xl md:text-5xl lg:text-6xl text-slate-800/90 dark:text-white/90">Turon Ilm-Fan</div>
+        </a>
+      </div>
+
+      <nav class="text-[15px] flex items-center flex-wrap justify-center text-slate-700 dark:text-slate-200">
+        <a href="{% url 'home' %}"               class="link-pill">Asosiy sahifa</a>
+        <span class="mx-2 text-brand-600/70">|</span>
+        <a href="{% url 'suralar' %}"            class="link-pill">Suralar</a>
+        <span class="mx-2 text-brand-600/70">|</span>
+        <a href="{% url 'kokler_index' %}"       class="link-pill">Ildizlar</a>
+        <span class="mx-2 text-brand-600/70">|</span>
+        <a href="{% url 'fihrist_index' %}"      class="link-pill">Fihrist</a>
+        <span class="mx-2 text-brand-600/70">|</span>
+        <a href="{% url 'search' %}"             class="link-pill">Qur'ondan qidirish</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- === MAIN (Sidebar + Content) === -->
+  <main class="max-w-7xl mx-auto px-4 py-8 grid md:grid-cols-[300px,1fr] gap-8">
+    <!-- Sidebar -->
+    <aside class="w-full">
+      <div class="frame-blue bg-white/70 dark:bg-slate-900/70 shadow-sm px-5 py-3 mb-3">
+        <div class="px-2 py-2 text-lg font-semibold">Menyu</div>
+      </div>
+
+      <div class="frame-blue bg-white/70 dark:bg-slate-900/70 shadow-sm px-2 py-3">
+        <nav class="p-1 text-[15px]">
+          <a href="{% url 'home' %}"
+             class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60
+             {% if request.path == '/' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">
+            Asosiy sahifa
+          </a>
+
+          <a href="{% url 'suralar' %}"
+             class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60
+             {% if request.path|slice:':9' == '/suralar/' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">
+            Suralar
+          </a>
+
+          <a href="{% url 'kokler_index' %}"
+             class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60
+             {% if request.path|slice:':8' == '/kokler' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">
+            Ildizlar
+          </a>
+
+          <a href="{% url 'fihrist_index' %}"
+             class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60
+             {% if request.path|slice:':9' == '/fihrist/' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">
+            Mundarija
+          </a>
+
+          <a href="{% url 'taqqoslash' %}"
+             class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60
+             {% if request.path|slice:':12' == '/taqqoslash' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">
+            Oyatlarni taqqoslash
+          </a>
+
+          <a href="{% url 'satrlar' %}"
+             class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60
+             {% if request.path|slice:':9' == '/satrlar' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">
+            Satrlar
+          </a>
+
+          <a href="{% url 'el_mufredat' %}"
+             class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60
+             {% if request.path|slice:':13' == '/el-mufredat' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">
+            Mufradot
+          </a>
+
+          <a href="{% url 'el_mucem' %}"
+             class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60
+             {% if request.path|slice:':9' == '/el-mucem' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">
+            An-majom-al-mufohras
+          </a>
+
+          <a href="{% url 'search' %}"
+             class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60
+             {% if request.path|slice:':8' == '/search' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">
+            Qur'ondan qidirish
+          </a>
+        </nav>
+      </div>
+    </aside>
+
+    <!-- Content -->
+    <section>
+      {% block content %}{% endblock %}
+    </section>
+  </main>
+
+  <!-- Right tools panel (ixtiyoriy) -->
+  <aside class="max-w-7xl mx-auto px-4">
+    {% include "core/_tools_right.html" %}
+  </aside>
+
+  <!-- Footer -->
+  <footer class="mt-10 border-t border-slate-200/70 dark:border-slate-800/70">
+    <div class="max-w-7xl mx-auto px-4 py-6 text-sm text-slate-500">
+      © {{ now|date:"Y" }} Turon Ilm-Fan
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-3xl font-bold ar">{{ root.root_ar }}</h1>
+  <a href="{% url 'kokler' %}" class="text-sm text-brand-600 hover:underline">← Köklar</a>
+</div>
+
+<p class="text-slate-500 mb-4">Jami uchrashuvlar: <b>{{ total }}</b></p>
+
+<h2 class="font-semibold mb-3">Formalar</h2>
+<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+  {% for f in forms %}
+  <div class="rounded-2xl border p-5 bg-white/80 dark:bg-slate-900/60 hover:shadow-glow transition">
+    <div class="ar text-2xl">{{ f.form_ar }}</div>
+    <div class="text-sm text-slate-500 mt-1">
+      {% if f.translit %}{{ f.translit }}{% endif %}
+      {% if f.pos %} · {{ f.pos }}{% endif %}
+      {% if f.gloss %} · {{ f.gloss }}{% endif %}
+    </div>
+  </div>
+  {% empty %}
+  <div class="text-slate-500">Forma kiritilmagan.</div>
+  {% endfor %}
+</div>
+
+<h2 class="font-semibold mb-3">Oyatlarda uchrashuvlar</h2>
+<div class="overflow-x-auto rounded-2xl border bg-white/80 dark:bg-slate-900/60">
+  <table class="min-w-full text-sm">
+    <thead class="bg-slate-50/80 dark:bg-slate-900/40">
+      <tr><th class="text-left p-3">Sura/Oyat</th><th class="text-left p-3">Forma</th><th class="text-left p-3">Izoh</th><th class="text-left p-3"></th></tr>
+    </thead>
+    <tbody>
+    {% for o in occ %}
+      <tr class="border-t dark:border-slate-800/60 hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition">
+        <td class="p-3"><a class="text-brand-600 hover:underline" href="{% url 'sura_detail' o.surah.index %}#{{ o.ayah_no }}">{{ o.surah.index }}:{{ o.ayah_no }}</a></td>
+        <td class="p-3"><span class="ar text-xl">{{ o.lexeme.form_ar }}</span>{% if o.lexeme.translit %}<span class="text-slate-500">: {{ o.lexeme.translit }}</span>{% endif %}</td>
+        <td class="p-3 text-slate-500">{% if o.lexeme.pos %}{{ o.lexeme.pos }}{% endif %}{% if o.lexeme.gloss %}{% if o.lexeme.pos %} — {% endif %}{{ o.lexeme.gloss }}{% endif %}</td>
+        <td class="p-3"><a class="hover:underline" href="{% url 'sura_detail' o.surah.index %}#{{ o.ayah_no }}">🔎</a></td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="4" class="p-3 text-slate-500">Hozircha uchrashuv yo‘q.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

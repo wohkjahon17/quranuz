@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-3xl font-bold">{{ topic.title }}</h1>
+  <a href="{% url 'fihrist' %}" class="text-sm text-brand-600 hover:underline">← Fihrist</a>
+</div>
+<ul class="grid md:grid-cols-2 gap-4">
+  {% for v in verses %}
+  <li class="rounded-2xl border p-4 bg-white/80 dark:bg-slate-900/60 hover:shadow-glow transition">
+    <a class="text-brand-600 hover:underline" href="{% url 'sura_detail' v.surah.index %}#{{v.ayah_no}}">{{v.surah.index}}:{{v.ayah_no}}</a>
+  </li>
+  {% empty %}
+  <li class="text-slate-500">Bu mavzuga oyat biriktirilmagan.</li>
+  {% endfor %}
+</ul>
+{% endblock %}
