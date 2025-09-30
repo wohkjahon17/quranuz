@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Ildizlar{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Ildizlar</h1>
+
+<div class="letters" dir="rtl" aria-label="Arabic letters">
+  {% for L in letters %}
+    <a class="letter {% if L == letter %}active{% endif %}"
+       href="{% url 'roots-letters' %}?harf={{ L }}">{{ L }}</a>
+  {% empty %}
+    <div style="color:rgba(12, 180, 57, 0.644)">letters bo'sh — view kontekstini tekshiring</div>
+  {% endfor %}
+</div>
+
+<!-- keyin bu yerga tanlangan harf uchun ro'yxatlarni qo'shamiz -->
+{% endblock %}

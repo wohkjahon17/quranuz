@@ -1,29 +1,54 @@
 {% extends "base.html" %}
+{% block title %}ILDIZLAR{% endblock %}
+
 {% block content %}
 
-<h1>Köklar</h1>
+<style>
+  /* Harflar paneli */  
+  .letters{direction:rtl; display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin:8px 0 18px}
+  .letters a{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:40px; height:40px; border:2px solid #007706; border-radius:10px;
+    font-size:24px; color:#018d13; text-decoration:none; background:#fff;
+    box-shadow:0 1px 0 rgba(2, 110, 27, 0.05), inset 0 0 0 2px #eef5fb;
+    transition:transform .15s ease, background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .letters a:hover{ border-color:#16a34a; color:#16a34a; } /* hoverda YASHIL */
+  .letters a.active{ background:#02892f; color:#fff; border-color:#008d34; } /* tanlangan harf (qizil tosh) */
 
-<div class="bar letters" style="margin:10px 0;">
+  /* Ildizlar ro‘yxati (pastdagi katakchalar) */
+  .roots-wrap{ direction:rtl; margin:0 auto; max-width:800px; }
+  .root-item{
+    width:100px; float:right; margin:4px 0; text-align:center;
+    font-size:22px; line-height:44px; height:44px; border:1px solid #00800f; border-radius:10px;
+    color:#00881d; background:#fff; text-decoration:none; display:inline-block;
+  }
+  .root-item:hover{ border-color:#16a34a; color:#16a34a; }
+
+  /* Yaxshi arab shriftlari bo‘lsa foydalansin */
+  .arabic{ font-family: "Scheherazade New","Amiri","Noto Naskh Arabic","Traditional Arabic", "Times New Roman", serif; }
+</style>
+
+<h2 class="text-3xl md:text-4xl text-slate-700 text-center mb-3 tracking-wide">ILDIZLAR</h2>
+
+<!-- Harflar paneli -->
+<div class="letters arabic">
   {% for L in letters %}
-    <a href="{% url 'kokler' %}?harf={{ L }}"
-       {% if current == L %}
-         style="background:#1a4a7a;color:#fff;border-radius:6px;padding:4px 8px"
-       {% else %}
-         style="padding:4px 8px;display:inline-block"
-       {% endif %}>{{ L }}</a>
+    <a href="{% url 'roots-by-letter' L %}" class="{% if L == letter %}active{% endif %}">{{ L }}</a>
   {% endfor %}
-  <a href="{% url 'kokler' %}" style="margin-left:6px">[Hammasi]</a>
 </div>
 
-<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;">
-  {% for r in roots %}
-    <div style="border:1px solid #e5e7eb;border-radius:10px;padding:10px;text-align:center;
-                font-family:'Noto Naskh Arabic',serif;direction:rtl;font-size:22px;">
-      <a href="{% url 'kokler_root' r %}">{{ r }}</a>
-    </div>
-  {% empty %}
-    <div class="muted">Bu harf bilan ildiz topilmadi.</div>
-  {% endfor %}
-</div>
+{% if not letter %}
+  <p class="text-center text-slate-600"></p>
+{% else %}
+  <div class="roots-wrap arabic" style="overflow:hidden">
+    {% for r in roots %}
+      <a class="root-item" href="{% url 'kokler_root' r %}">{{ r }}</a>
+    {% empty %}
+      <div class="text-center text-slate-600">Bu harf uchun ildizlar kiritilmagan.</div>
+    {% endfor %}
+  </div>
+  <div style="clear:both; height:24px"></div>
+{% endif %}
 
 {% endblock %}

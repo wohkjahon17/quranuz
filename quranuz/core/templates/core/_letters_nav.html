@@ -1,0 +1,21 @@
+<nav class="letters" dir="rtl" aria-label="Arabic letters">
+  {% for L in letters %}
+    <a class="letter {% if L == letter %}active{% endif %}"
+       href="{% url 'roots-by-letter' L %}">{{ L }}</a>
+  {% endfor %}
+</nav>
+
+<style>
+.letters{
+  max-width:900px;margin:12px auto 18px;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(44px,1fr));
+  gap:10px
+}
+.letter{
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid #7E92B8;border-radius:10px;padding:10px 0;
+  font-size:22px;text-decoration:none;color:#0b3d5c;background:#fff
+}
+.letter:hover{background:#f3f7ff}
+.letter.active{background:rgb(21, 117, 19);color:#fff;border-color:rgb(21, 117, 19)}
+</style>
