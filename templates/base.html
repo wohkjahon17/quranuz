@@ -26,46 +26,41 @@
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
-  .blue-frame{
+  :root{
+    --brand:#0e6504;
+    --brand-25: rgba(14,101,4,.25);
+    --brand-08: rgba(14,101,4,.08);
+  }
+
+  .green-frame{
     position:relative;
-    border:1px solid #2b59c3;            /* asosiy ko‘k chiziq */
+    border:1px solid var(--brand);
     border-radius:16px;
   }
-  .blue-frame::after{
+  .green-frame::after{
     content:"";
-    position:absolute; inset:-6px;       /* tashqi ingichka “halo” */
-    border:1px solid rgba(43,89,195,.25);
+    position:absolute; inset:-6px;
+    border:1px solid var(--brand-25);
     border-radius:20px;
     pointer-events:none;
   }
 
-  /* “Turon Ilm-Fan” – yumshoq, ko‘rinadigan skript shrift */
-  .brand-title{
-    font-family: "Brush Script MT", "Segoe Script", "Lucida Handwriting", "Caveat", cursive;
-    line-height: 1;
-    letter-spacing: .5px;
-  }
-
-  /* Menyudagi tugmalar uchun nafis hover */
-  .link-pill{ @apply px-3 py-1 rounded-md transition; }
-  .link-pill:hover{ @apply bg-blue-50 text-blue-700 dark:bg-slate-800/60; }
-  /* Brend yozuvi: nozik, katta, script uslub */
+  /* Brend yozuvi (Turon Ilm-Fan) */
   .brand-title{
     font-family: 'Great Vibes', 'Brush Script MT', cursive;
     font-weight: 400;
     letter-spacing: .3px;
+    line-height: 1;
   }
-  /* Logo – biroz kattaroq */
-  .brand-logo{
-    width: 64px;   /* sm: w-16 */
-    height: 64px;
-  }
-  @media (min-width: 768px){
-    .brand-logo{ width: 72px; height: 72px; } /* md: w-18 */
-  }
-  @media (min-width: 1024px){
-    .brand-logo{ width: 80px; height: 80px; } /* lg: w-20 */
-  }
+
+  /* Menyudagi tugmalar */
+  .link-pill{ padding:.25rem .75rem; border-radius:.375rem; transition: all .15s; }
+  .link-pill:hover{ background: var(--brand-08); color: var(--brand); }
+
+  /* Logo */
+  .brand-logo{ width: 64px; height: 64px; }
+  @media (min-width: 768px){ .brand-logo{ width: 72px; height: 72px; } }
+  @media (min-width: 1024px){ .brand-logo{ width: 80px; height: 80px; } }
 </style>
 
   <!-- Tailwind -->
@@ -87,7 +82,7 @@
 <body class="min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100">
 
   <!-- TOP DATE STRIP -->
-  <div class="bg-white/80 dark:bg-slate-900/80 border-b border-slate-200/70 dark:border-slate-800/70">
+  <div class="bg-white/80 dark:bg-slate-900/80 border-b" style="border-color: var(--brand-25)">
     <div class="max-w-7xl mx-auto px-4 py-2 flex items-center justify-between text-sm">
       <div class="flex items-center gap-4">
         <div> <b>{{ greg_date_uz }}</b></div>
@@ -110,7 +105,7 @@
 
     <!-- LOGO + NOM (markazda) va o'ng tomonda harakat tugmalari -->
     <div class="relative w-full flex items-center justify-center">
-      <div class="blue-frame bg-white/70 dark:bg-slate-900/70 shadow-sm px-5 py-3">
+      <div class="green-frame bg-white/70 dark:bg-slate-900/70 shadow-sm px-5 py-3">
         <a href="{% url 'home' %}" class="flex items-center gap-5">
           <img
             src="{% static 'img/turon-logo.png.webp' %}"
@@ -126,12 +121,12 @@
 
       <!-- O'ng tomondagi tugmalar: matn kattaligi boshqaruvi -->
       <div class="absolute right-0 top-1/2 -translate-y-1/2 flex items-center gap-2">
-        <div class="flex items-center gap-1 rounded-lg border border-slate-200/70 dark:border-slate-800/70 bg-white/80 dark:bg-slate-900/60 shadow-sm">
+        <div class="flex items-center gap-1 rounded-lg bg-white/80 dark:bg-slate-900/60 shadow-sm" style="border:1px solid var(--brand)">
           <button @click="dec()" title="Matnni kichraytirish"
                   class="px-2.5 py-1 text-sm hover:bg-slate-100 dark:hover:bg-slate-800/60 rounded-l-lg">
             A-
           </button>
-          <div class="px-2 py-1 text-xs select-none border-x border-slate-200/70 dark:border-slate-800/70">
+          <div class="px-2 py-1 text-xs select-none" style="border-left:1px solid var(--brand-25); border-right:1px solid var(--brand-25)">
             <span x-text="fontScale + '%' "></span>
           </div>
           <button @click="inc()" title="Matnni kattalashtirish"
@@ -142,16 +137,16 @@
       </div>
     </div>
 
-    <!-- LOGO tagidagi NAV – ko‘k ajratkichlar bilan -->
+    <!-- LOGO tagidagi NAV – yashil ajratkichlar bilan -->
     <nav class="mt-4 text-[15px] flex items-center flex-wrap justify-center text-slate-700 dark:text-slate-200">
       <a href="{% url 'home' %}"    class="link-pill">Asosiy sahifa</a>
-      <span class="mx-2 text-blue-700/70">|</span>
+      <span class="mx-2 text-[#0e6504]/70">|</span>
       <a href="{% url 'suralar' %}" class="link-pill">Suralar</a>
-      <span class="mx-2 text-blue-700/70">|</span>
+      <span class="mx-2 text-[#0e6504]/70">|</span>
       <a href="{% url 'kokler' %}"  class="link-pill">Ildizlar</a>
-      <span class="mx-2 text-blue-700/70">|</span>
+      <span class="mx-2 text-[#0e6504]/70">|</span>
       <a href="{% url 'fihrist' %}" class="link-pill">Fihrist</a>
-      <span class="mx-2 text-blue-700/70">|</span>
+      <span class="mx-2 text-[#0e6504]/70">|</span>
       <a href="{% url 'search' %}"  class="link-pill">Qur'onda qidirish</a>
     </nav>
   </div>
@@ -163,12 +158,12 @@
 <aside class="w-full max-w-xs">
   <div class="rounded-xl border border-slate-200/60 dark:border-slate-800/60 bg-white/80 dark:bg-slate-900/60">
     </div>
-    <div class="blue-frame bg-white/70 dark:bg-slate-900/70 shadow-sm px-5 py-3">
+    <div class="green-frame bg-white/70 dark:bg-slate-900/70 shadow-sm px-5 py-3">
     <div class="px-4 py-3 text-lg font-semibold border-b border-slate-200/60 dark:border-slate-800/60">
       Menyu
        </div>
     </div>
-    <div class="blue-frame bg-white/70 dark:bg-slate-900/70 shadow-sm px-5 py-3">
+    <div class="green-frame bg-white/70 dark:bg-slate-900/70 shadow-sm px-5 py-3">
     <nav class="p-2 text-[15px]">
       <a href="{% url 'home' %}" class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60 {% if request.path == '/' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">Asosiy sahifa</a>
       <a href="{% url 'suralar' %}" class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60 {% if request.path|slice:':9' == '/suralar/' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">Suralar</a>
@@ -192,7 +187,7 @@
     </section>
   </main>
 
-  <footer class="mt-10 border-t border-slate-200/70 dark:border-slate-800/70">
+  <footer class="mt-10 border-t" style="border-color: var(--brand-25)">
     <div class="max-w-7xl mx-auto px-4 py-6 text-sm text-slate-500">
       © {{ now|date:"Y" }} Turon Ilm-Fan
     </div>
