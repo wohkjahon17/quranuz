@@ -1,8 +1,21 @@
 {% load static %}
 <!doctype html>
 <html lang="uz" class="h-full"
-  x-data="{ dark: (localStorage.theme === 'dark') }"
-  x-init="$watch('dark', v => { localStorage.theme = v ? 'dark' : 'light'; v ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark') })">
+  x-data="{
+    dark: (localStorage.theme === 'dark'),
+    fontScale: parseInt(localStorage.fontScale || '100'),
+    inc(){ if(this.fontScale < 130){ this.fontScale += 5 } },
+    dec(){ if(this.fontScale > 85){ this.fontScale -= 5 } }
+  }"
+  x-init="
+    $watch('dark', v => {
+      localStorage.theme = v ? 'dark' : 'light';
+      v ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark')
+    });
+    const applyScale = () => { document.documentElement.style.fontSize = ($data.fontScale/100*16) + 'px' };
+    $watch('fontScale', v => { localStorage.fontScale = v; applyScale() });
+    applyScale();
+  ">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -71,7 +84,7 @@
   </style>
 </head>
 
-<body class="min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100"
+<body class="min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100">
 
   <!-- TOP DATE STRIP -->
   <div class="bg-white/80 dark:bg-slate-900/80 border-b border-slate-200/70 dark:border-slate-800/70">
@@ -95,19 +108,38 @@
   <header class="bg-white/85 dark:bg-slate-900/85 backdrop-blur">
   <div class="max-w-7xl mx-auto px-4 py-5 flex flex-col items-center">
 
-    <!-- LOGO + NOM markazda, ko‘k ramka bilan -->
-    <div class="blue-frame bg-white/70 dark:bg-slate-900/70 shadow-sm px-5 py-3">
-      <a href="{% url 'home' %}" class="flex items-center gap-5">
-        <img
-          src="{% static 'img/turon-logo.png.webp' %}"
-          alt="Turon"
-          class="h-14 w-14 md:h-16 md:w-16 object-contain"
-        />
-        <span class="brand-title text-4xl md:text-5xl lg:text-6xl
-                     text-slate-800/90 dark:text-white/90">
-          Turon Ilm-Fan
-        </span>
-      </a>
+    <!-- LOGO + NOM (markazda) va o'ng tomonda harakat tugmalari -->
+    <div class="relative w-full flex items-center justify-center">
+      <div class="blue-frame bg-white/70 dark:bg-slate-900/70 shadow-sm px-5 py-3">
+        <a href="{% url 'home' %}" class="flex items-center gap-5">
+          <img
+            src="{% static 'img/turon-logo.png.webp' %}"
+            alt="Turon"
+            class="h-14 w-14 md:h-16 md:w-16 object-contain"
+          />
+          <span class="brand-title text-4xl md:text-5xl lg:text-6xl
+                       text-slate-800/90 dark:text-white/90">
+            Turon Ilm-Fan
+          </span>
+        </a>
+      </div>
+
+      <!-- O'ng tomondagi tugmalar: matn kattaligi boshqaruvi -->
+      <div class="absolute right-0 top-1/2 -translate-y-1/2 flex items-center gap-2">
+        <div class="flex items-center gap-1 rounded-lg border border-slate-200/70 dark:border-slate-800/70 bg-white/80 dark:bg-slate-900/60 shadow-sm">
+          <button @click="dec()" title="Matnni kichraytirish"
+                  class="px-2.5 py-1 text-sm hover:bg-slate-100 dark:hover:bg-slate-800/60 rounded-l-lg">
+            A-
+          </button>
+          <div class="px-2 py-1 text-xs select-none border-x border-slate-200/70 dark:border-slate-800/70">
+            <span x-text="fontScale + '%' "></span>
+          </div>
+          <button @click="inc()" title="Matnni kattalashtirish"
+                  class="px-2.5 py-1 text-sm hover:bg-slate-100 dark:hover:bg-slate-800/60 rounded-r-lg">
+            A+
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- LOGO tagidagi NAV – ko‘k ajratkichlar bilan -->
