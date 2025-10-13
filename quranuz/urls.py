@@ -21,4 +21,5 @@ urlpatterns = [
     path("satrlar/", views.satrlar, name="satrlar"),                    
     path("el-mufredat/", views.el_mufredat, name="el_mufredat"),       
     path("el-mucem/", views.el_mucem, name="el_mucem"),   
+    path("asmaul-husna/", views.asmaul_husna, name="asmaul_husna"),
 ]

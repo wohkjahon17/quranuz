@@ -8,6 +8,7 @@ from django.db.models.functions import Substr
 from django.shortcuts import render
 from .models import Root 
 from django.utils import timezone
+from .constants import ASMA_UL_HUSNA
 try:
     from hijri_converter import convert as hijri_convert  # pip install hijri-converter
 except Exception:
@@ -36,6 +37,9 @@ def el_mufredat(request):
 def el_mucem(request):
     """EL-Mu‘cem EL-Mufehres — placeholder sahifa."""
     return render(request, "core/el_mucem.html")
+ 
+def asmaul_husna(request):
+    return render(request, "core/asmaul_husna.html", {"asma": ASMA_UL_HUSNA})
 def _today_strings():
     now = timezone.localtime()
     greg = f"{now.day} {MONTHS_UZ[now.month-1]} {now.year}"

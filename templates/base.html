@@ -120,6 +120,8 @@
       <span class="mx-2 text-blue-700/70">|</span>
       <a href="{% url 'fihrist' %}" class="link-pill">Fihrist</a>
       <span class="mx-2 text-blue-700/70">|</span>
+      <a href="{% url 'asmaul_husna' %}" class="link-pill">Allohning ismlari</a>
+      <span class="mx-2 text-blue-700/70">|</span>
       <a href="{% url 'search' %}"  class="link-pill">Qur'onda qidirish</a>
     </nav>
   </div>
@@ -142,6 +144,7 @@
       <a href="{% url 'suralar' %}" class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60 {% if request.path|slice:':9' == '/suralar/' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">Suralar</a>
       <a href="{% url 'kokler' %}" class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60 {% if request.path|slice:':8' == '/kokler' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">Kökler (Ildizlar)</a>
       <a href="{% url 'fihrist' %}" class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60 {% if request.path|slice:':9' == '/fihrist/' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">Fihrist</a>
+      <a href="{% url 'asmaul_husna' %}" class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60 {% if request.path|slice:':14' == '/asmaul-husna' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">Allohning 99 ismlari</a>
       <a href="{% url 'taqqoslash' %}" class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60 {% if request.path|slice:':12' == '/taqqoslash' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">Oyatlarni taqqoslash</a>
       <a href="{% url 'satrlar' %}" class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60 {% if request.path|slice:':9' == '/satrlar' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">Satrlar</a>
       <a href="{% url 'el_mufredat' %}" class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60 {% if request.path|slice:':13' == '/el-mufredat' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">EL-Mufredat</a>
