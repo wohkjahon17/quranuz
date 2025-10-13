@@ -1,4 +1,5 @@
 from datetime import datetime
+from .constants import ASMA_UL_HUSNA
 try:
     # pip install hijri-converter
     from hijri_converter import convert
@@ -29,4 +30,8 @@ def dates(request):
         # kutubxona yo‘q bo‘lsa, vaqtincha bo‘sh
         h_str = "—"
 
-    return {"greg_date_uz": g, "hijri_date_ar": h_str}
+    return {
+        "greg_date_uz": g,
+        "hijri_date_ar": h_str,
+        "asmaul_husna": ASMA_UL_HUSNA,
+    }

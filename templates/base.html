@@ -1,7 +1,7 @@
 {% load static %}
 <!doctype html>
 <html lang="uz" class="h-full"
-  x-data="{ dark: (localStorage.theme === 'dark'), fontScale: Number(localStorage.fontScale || 100), inc(){ this.fontScale = Math.min(150, this.fontScale + 5) }, dec(){ this.fontScale = Math.max(80, this.fontScale - 5) } }"
+  x-data="{ dark: (localStorage.theme === 'dark'), fontScale: Number(localStorage.fontScale || 100), showAsma:false, inc(){ this.fontScale = Math.min(150, this.fontScale + 5) }, dec(){ this.fontScale = Math.max(80, this.fontScale - 5) } }"
   x-init="$watch('dark', v => { localStorage.theme = v ? 'dark' : 'light'; v ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark') }); document.documentElement.style.fontSize = (localStorage.fontScale || 100) + '%'; $watch('fontScale', v => { localStorage.fontScale = v; document.documentElement.style.fontSize = v + '%'; });">
 <head>
   <meta charset="utf-8">
@@ -124,6 +124,12 @@
             A+
           </button>
         </div>
+        <!-- 99 ismlar tugmasi -->
+        <button @click="showAsma = true" title="Allohning 99 ismlari"
+                class="px-3 py-1.5 text-sm rounded-lg bg-white/80 dark:bg-slate-900/60 shadow-sm hover:bg-slate-100 dark:hover:bg-slate-800/60"
+                style="border:1px solid var(--brand)">
+          99 Ism
+        </button>
       </div>
     </div>
 
@@ -137,12 +143,31 @@
       <span class="mx-2 text-blue-700/70">|</span>
       <a href="{% url 'fihrist' %}" class="link-pill">Fihrist</a>
       <span class="mx-2 text-blue-700/70">|</span>
-      <a href="{% url 'asmaul_husna' %}" class="link-pill">Allohning ismlari</a>
-      <span class="mx-2 text-blue-700/70">|</span>
       <a href="{% url 'search' %}"  class="link-pill">Qur'onda qidirish</a>
     </nav>
   </div>
 </header>
+  
+  <!-- Asma'ul Husna modal -->
+  <div x-show="showAsma" x-transition.opacity class="fixed inset-0 z-50" style="display:none">
+    <div class="absolute inset-0 bg-black/50" @click="showAsma=false"></div>
+    <div class="relative max-w-5xl mx-auto mt-10 bg-white dark:bg-slate-900 rounded-xl shadow-xl p-4">
+      <div class="flex items-center justify-between mb-2">
+        <h3 class="text-lg font-semibold">Allohning 99 ismlari</h3>
+        <button @click="showAsma=false" class="px-3 py-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60">✕</button>
+      </div>
+      <div class="h-[70vh] overflow-auto">
+        <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+          {% for it in asmaul_husna %}
+          <div class="rounded-lg border border-slate-200/70 dark:border-slate-800/60 bg-white/90 dark:bg-slate-900/60 p-3">
+            <div class="text-2xl ar text-center mb-1">{{ it.name_ar }}</div>
+            <div class="text-center text-slate-700 dark:text-slate-200 text-sm">{{ it.meaning_uz }}</div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- MAIN: LEFT MENU + CONTENT -->
   <main class="max-w-7xl mx-auto px-4 py-8 grid md:grid-cols-[270px,1fr] gap-8">
     <!-- Sidebar -->
@@ -161,7 +186,6 @@
       <a href="{% url 'suralar' %}" class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60 {% if request.path|slice:':9' == '/suralar/' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">Suralar</a>
       <a href="{% url 'kokler' %}" class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60 {% if request.path|slice:':8' == '/kokler' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">Kökler (Ildizlar)</a>
       <a href="{% url 'fihrist' %}" class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60 {% if request.path|slice:':9' == '/fihrist/' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">Fihrist</a>
-      <a href="{% url 'asmaul_husna' %}" class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60 {% if request.path|slice:':14' == '/asmaul-husna' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">Allohning 99 ismlari</a>
       <a href="{% url 'taqqoslash' %}" class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60 {% if request.path|slice:':12' == '/taqqoslash' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">Oyatlarni taqqoslash</a>
       <a href="{% url 'satrlar' %}" class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60 {% if request.path|slice:':9' == '/satrlar' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">Satrlar</a>
       <a href="{% url 'el_mufredat' %}" class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60 {% if request.path|slice:':13' == '/el-mufredat' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">EL-Mufredat</a>
