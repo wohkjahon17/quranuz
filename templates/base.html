@@ -1,8 +1,8 @@
 {% load static %}
 <!doctype html>
 <html lang="uz" class="h-full"
-  x-data="{ dark: (localStorage.theme === 'dark') }"
-  x-init="$watch('dark', v => { localStorage.theme = v ? 'dark' : 'light'; v ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark') })">
+  x-data="{ dark: (localStorage.theme === 'dark'), fontScale: Number(localStorage.fontScale || 100), inc(){ this.fontScale = Math.min(150, this.fontScale + 5) }, dec(){ this.fontScale = Math.max(80, this.fontScale - 5) } }"
+  x-init="$watch('dark', v => { localStorage.theme = v ? 'dark' : 'light'; v ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark') }); document.documentElement.style.fontSize = (localStorage.fontScale || 100) + '%'; $watch('fontScale', v => { localStorage.fontScale = v; document.documentElement.style.fontSize = v + '%'; });">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -13,6 +13,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
+  :root{ --brand:#2F6AA0; --brand-25:rgba(47,106,160,.25); }
   .blue-frame{
     position:relative;
     border:1px solid #2b59c3;            /* asosiy ko‘k chiziq */
@@ -96,7 +97,7 @@
   <div class="max-w-7xl mx-auto px-4 py-5 flex flex-col items-center">
 
     <!-- LOGO + NOM markazda, ko‘k ramka bilan -->
-    <div class="blue-frame bg-white/70 dark:bg-slate-900/70 shadow-sm px-5 py-3">
+    <div class="blue-frame bg-white/70 dark:bg-slate-900/70 shadow-sm px-5 py-3 relative">
       <a href="{% url 'home' %}" class="flex items-center gap-5">
         <img
           src="{% static 'img/turon-logo.png.webp' %}"
@@ -108,6 +109,22 @@
           Turon Ilm-Fan
         </span>
       </a>
+      <!-- O'ng tomondagi tugmalar: matn kattaligi boshqaruvi -->
+      <div class="absolute right-0 top-1/2 -translate-y-1/2 flex items-center gap-2">
+        <div class="flex items-center gap-1 rounded-lg bg-white/80 dark:bg-slate-900/60 shadow-sm" style="border:1px solid var(--brand)">
+          <button @click="dec()" title="Matnni kichraytirish"
+                  class="px-2.5 py-1 text-sm hover:bg-slate-100 dark:hover:bg-slate-800/60 rounded-l-lg">
+            A-
+          </button>
+          <div class="px-2 py-1 text-xs select-none" style="border-left:1px solid var(--brand-25); border-right:1px solid var(--brand-25)">
+            <span x-text="fontScale + '%' "></span>
+          </div>
+          <button @click="inc()" title="Matnni kattalashtirish"
+                  class="px-2.5 py-1 text-sm hover:bg-slate-100 dark:hover:bg-slate-800/60 rounded-r-lg">
+            A+
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- LOGO tagidagi NAV – ko‘k ajratkichlar bilan -->
