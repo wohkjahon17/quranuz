@@ -47,12 +47,27 @@
   .brand-logo{
     width: 64px;   /* sm: w-16 */
     height: 64px;
+    position: relative;
+    overflow: hidden; /* vector ichini kesish uchun */
   }
   /* Gradient logotip (rasm o'rniga) */
   .brand-logo-blob{
     background: linear-gradient(348.72deg, #0B7C63 0.77%, #73CA90 100%);
     box-shadow: 3px 3px 6px #125C4A, inset -0.3px -0.3px 0px #005A43, inset 0.3px 0.3px 0px #88E8AE;
     border-radius: 18px;
+  }
+  /* Ichki yengil "vector" qatlam (gradient ustida) */
+  .brand-logo-vector{
+    position: absolute;
+    width: 286.79px;
+    height: 293.17px;
+    left: calc(50% - 0.8px);
+    top: calc(50% + 0.8px);
+    transform: translate(-50%, -50%);
+    background: #83F6DD;
+    opacity: 0.11;
+    border-radius: 81.2584px;
+    pointer-events: none;
   }
   @media (min-width: 768px){
     .brand-logo{ width: 72px; height: 72px; } /* md: w-18 */
@@ -105,7 +120,9 @@
     <!-- LOGO + NOM markazda, ko‘k ramka bilan -->
     <div class="blue-frame bg-white/70 dark:bg-slate-900/70 shadow-sm px-5 py-3 relative">
       <a href="{% url 'home' %}" class="flex items-center gap-5">
-        <div class="brand-logo brand-logo-blob" aria-hidden="true"></div>
+        <div class="brand-logo brand-logo-blob" aria-hidden="true">
+          <div class="brand-logo-vector"></div>
+        </div>
         <span class="brand-title text-4xl md:text-5xl lg:text-6xl
                      text-slate-800/90 dark:text-white/90">
           Turon Ilm-Fan
