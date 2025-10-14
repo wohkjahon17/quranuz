@@ -120,9 +120,8 @@
     <!-- LOGO + NOM markazda, ko‘k ramka bilan -->
     <div class="blue-frame bg-white/70 dark:bg-slate-900/70 shadow-sm px-5 py-3 relative">
       <a href="{% url 'home' %}" class="flex items-center gap-5">
-        <div class="brand-logo brand-logo-blob" aria-hidden="true">
-          <div class="brand-logo-vector"></div>
-        </div>
+        <img src="{% static 'img/tasnim.png' %}" alt="Tasnim" class="h-10 w-10 md:h-12 md:w-12 object-contain"/>
+        <img src="{% static 'img/logo2.png' %}" alt="Turon" class="h-14 w-14 md:h-16 md:w-16 object-contain"/>
         <span class="brand-title text-4xl md:text-5xl lg:text-6xl
                      text-slate-800/90 dark:text-white/90">
           Turon Ilm-Fan
