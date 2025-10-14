@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="text-3xl md:text-4xl text-center mb-4">Allohning 99 ismlari</h2>
+<p class="text-center text-slate-600 mb-6">(Asma'ul Husna)</p>
+
+<div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+  {% for it in asma %}
+  <div class="rounded-xl border border-slate-200/70 dark:border-slate-800/60 bg-white/80 dark:bg-slate-900/60 p-4 shadow-sm">
+    <div class="text-3xl ar text-center mb-2">{{ it.name_ar }}</div>
+    <div class="text-center text-slate-700 dark:text-slate-200">{{ it.meaning_uz }}</div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

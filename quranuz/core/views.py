@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.http import Http404
 from django.shortcuts import render
 from django.http import HttpResponse
+from .constants import ASMA_UL_HUSNA
 from .constants import ARABIC_LETTERS
 from .models import (
     Surah, Ayah,
@@ -260,7 +261,7 @@ ROOTS_BY_LETTER["ص"] = [
     "ص ف ح","ص ف د","ص ف ر","ص ف ص ف","ص ف ف","ص ف ن","ص ف و",
     "ص ك ك",
     "ص ل ب","ص ل ح","ص ل د","ص ل ص ل","ص ل و","ص ل ي",
-    "ص م ت","ص م د","ص M ع","ص م م",
+    "ص م ت","ص م د","ص ع","ص م م",
     "ص ن ع","ص ن م","ص ن و",
     "ص ه ر",
     "ص و ب","ص و ت","ص و ر","ص و ع","ص و ف","ص و م",
@@ -1198,18 +1199,15 @@ ROOTS_BY_LETTER["ي"] = [
     "يٰسٓۜ",
 ]
 def home(request):
-    # bosh sahifa — hozircha ildizlar sahifasiga yo'naltiramiz
     return redirect("core:roots-letters")
 
 def roots_letters(request, letter=None):
     return render(request, "core/kokler.html", {"letters": LETTERS, "letter": letter})
 
 def taqqoslash(request):
-    # Hozircha oddiy placeholder sahifa
     return render(request, "core/taqqoslash.html")
 
 def search(request):
-    # Hozircha placeholder. Keyin haqiqiy qidiruvni qo‘shamiz.
     q = request.GET.get("q", "").strip()
     return HttpResponse(f"Qidiruv (test): {q}")
 
@@ -1218,7 +1216,7 @@ def roots_by_letter(request, letter):
         raise Http404("Noto'g'ri harf")
     return roots_letters(request, letter=letter)
 try:
-    from hijri_converter import convert as hijri_convert  # pip install hijri-converter
+    from hijri_converter import convert as hijri_convert  
 except Exception:
     hijri_convert = None
 
@@ -1234,8 +1232,6 @@ HIJRI_MONTHS_UZ = [
     "Jumodal-avval","Jumodal-oxir","Rajab","Sha’bon",
     "Ramazon","Shavvol","Zulqa‘da","Zulhijja"
 ]
-
-# ----------------------- Kichik yordamchilar -----------------------
 
 def _today_strings():
     """
@@ -1260,7 +1256,6 @@ def roots_by_letter(request, letter):
     })
 
 def roots_letters(request):
-    # alias — hozircha bosh sahifaga teng
     return kokler_index(request)
 
 
@@ -1274,8 +1269,6 @@ def _normalize_harf(raw):
     m = re.search(r'[\u0600-\u06FF]', raw)
     return m.group(0) if m else raw
 
-
-# ----------------------- Oddiy sahifalar -----------------------
 
 def home(request):
     """Bosh sahifa."""
@@ -1307,13 +1300,11 @@ def page_goto(request):
     p = request.GET.get("p", "1")
     return render(request, "core/page.html", {"page_no": p})
 
-
-# ----------------------- Suralar / Oyatlar -----------------------
-
 def suralar(request):
     return render(request, "core/suralar.html")
 
-
+def asmaul_husna(request):
+    return render(request, "core/asmaul_husna.html", {"asma": ASMA_UL_HUSNA})
 def sura_goto(request):
     """
     /sura-goto/?s=2&a=3 -> sura sahifasiga yo‘naltiradi.
@@ -1323,7 +1314,6 @@ def sura_goto(request):
     ayah = request.GET.get("a") or request.GET.get("ayat") or ""
 
     if not (sura and sura.isdigit()):
-        # Form ko‘rinishi (xato bo‘lmasa ham oddiy sahifa ko‘rsatish mumkin)
         return render(request, "core/sura_jump.html", {"error": None})
 
     sura_no = int(sura)
@@ -1334,7 +1324,7 @@ def sura_goto(request):
 
 
 def sura_detail(request, index: int):
-    sura = get_object_or_404(Surah, number=index)  # index emas, number
+    sura = get_object_or_404(Surah, number=index) 
     ayahs = Ayah.objects.filter(surah=sura).order_by("number_in_surah")
     greg, hijri = _today_strings()
     return render(request, "core/sura_detail.html", {
@@ -1358,11 +1348,6 @@ def search(request):
     return render(request, "core/search.html",
                   {"q": q, "sura_results": sura_results, "ayah_results": ayah_results})
 
-
-
-
-# ----------------------- Köklar (Lugat) -----------------------
-
 def kokler_index(request):
     return render(request, "core/kokler.html", {
         "letters": ARABIC_LETTERS,
@@ -1381,7 +1366,7 @@ def kokler_root(request, root):
         Occurrence.objects
         .filter(lexeme__root=r)
         .select_related("lexeme", "surah")
-        .order_by("surah__number", "ayah_no")   # <-- shu yer muhim
+        .order_by("surah__number", "ayah_no") 
     )
 
     ctx = {
@@ -1392,9 +1377,6 @@ def kokler_root(request, root):
     }
     return render(request, "core/kokler_root.html", ctx)
 
-
-
-# ----------------------- Fihrist (Mavzular) -----------------------
 def fihrist(request):
     return render(request, "core/fihrist.html")
 
@@ -1410,7 +1392,7 @@ def fihrist_topic(request, slug):
         TopicVerse.objects
         .filter(topic=topic)
         .select_related("surah")
-        .order_by("surah__number", "ayah_no")   # <-- shu yer muhim
+        .order_by("surah__number", "ayah_no") 
     )
     return render(request, "core/fihrist_topic.html", {"topic": topic, "verses": verses})
 

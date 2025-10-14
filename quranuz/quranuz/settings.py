@@ -8,12 +8,10 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# --- Xavfsizlik sozlamalari ---
 SECRET_KEY = 'django-insecure-*!t_e_-**wo60b0it12@w3s*jqgh*4+(-)4q8jo&(!am0uai4t'
 DEBUG = True
 ALLOWED_HOSTS = []
 
-# --- App’lar ---
 INSTALLED_APPS = [
     "django.contrib.admin",
     'rest_framework',
@@ -22,10 +20,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "core",   # faqat bizning app
+    "core",  
 ]
 
-# --- Middleware ---
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -39,7 +36,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "quranuz.urls"
 
-# --- Template’lar ---
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -50,7 +46,7 @@ TEMPLATES = [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
-                "core.context.dates",   # siz qo‘shgan custom processor
+                "core.context.dates",  
                 "django.contrib.messages.context_processors.messages",
             ],
         },
@@ -59,7 +55,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "quranuz.wsgi.application"
 
-# --- Database ---
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -67,7 +62,6 @@ DATABASES = {
     }
 }
 
-# --- Parol validatsiyasi ---
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
@@ -75,18 +69,14 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-# --- Lokalizatsiya ---
 LANGUAGE_CODE = "uz"
 LOCALE_PATHS = [BASE_DIR / "locale"]
 TIME_ZONE = "Asia/Tashkent"
 USE_I18N = True
 USE_TZ = True
 
-# --- Statik fayllar ---
+
 STATIC_URL = "static/"
-# Agar sizda `static/` papka bo‘lsa, quyidagini yoqishingiz mumkin:
-# STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# --- Primary key ---
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

@@ -1,6 +1,5 @@
-# core/context.py
 from django.utils import timezone
-
+from .constants import ASMA_UL_HUSNA
 try:
     from hijri_converter import convert as hijri_convert
 except Exception:
@@ -20,8 +19,8 @@ HIJRI_MONTHS_UZ = [
 ]
 
 def dates(request):
-    now = timezone.localtime()  # Asia/Tashkent settings.py da bor
-    # 2025 Sentyabr 11, Payshanba
+    now = timezone.localtime()  
+   
     greg_date_uz = f"{now.year} {MONTHS_UZ[now.month-1].capitalize()} {now.day}, {WEEKDAYS_UZ[now.weekday()]}"
     greg_time_uz = now.strftime("%H:%M:%S")
 
@@ -34,4 +33,5 @@ def dates(request):
         "greg_date_uz": greg_date_uz,
         "greg_time_uz": greg_time_uz,
         "hijri_date_ar": hijri_date_ar,
+         "asmaul_husna": ASMA_UL_HUSNA,
     }

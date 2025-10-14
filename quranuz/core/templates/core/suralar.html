@@ -2,10 +2,9 @@
 {% block title %}Suralar — TASNIM{% endblock %}
 {% block content %}
 
-<!-- Tasnim UI styles (scoped) -->
 <style>
   .tn-page{background:linear-gradient(135deg,#0f4c3a 0%,#1e6b5a 50%,#2d8f7a 100%);
-           min-height:calc(100vh - 220px); /* base header/footerdan keyin ham to'liq ko'rinsin */}
+           min-height:calc(100vh - 220px); 
   .tn-container{max-width:1200px;margin:0 auto;padding:20px}
   /* Header */
   .tn-header{background:rgba(255,255,255,.95);backdrop-filter:blur(10px);padding:20px 0;text-align:center;border-radius:15px;margin-bottom:30px;box-shadow:0 8px 32px rgba(0,0,0,.1)}
@@ -97,12 +96,10 @@
   const SURAH_AYAHS_API = (surahId) => `${CORS_PROXY}${encodeURIComponent(BASE_URL + '/api/quran/surah/' + surahId)}`;
   const BY_WORDS_API = (surahId) => `${CORS_PROXY}${encodeURIComponent(BASE_URL + '/api/bywords/' + surahId)}`;
 
-  // Basic Auth
   const USERNAME = 'usertsnm';
   const PASSWORD = 'user123Mzn2hZ0qa0a0XL7';
   const AUTH_HEADER = 'Basic ' + btoa(USERNAME + ':' + PASSWORD);
 
-  // Lokal fallback ro‘yxat (qisqartirilgan)
   const localSurahs = [
     {surahNo:1,nameUzlat:"Fotiha",nameArabic:"الفاتحة",suraMeanUzlat:"Ochuvchi",ayahNumber:7},
     {surahNo:2,nameUzlat:"Baqara",nameArabic:"البقرة",suraMeanUzlat:"Sigir",ayahNumber:286},

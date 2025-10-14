@@ -1,115 +1,82 @@
 {% load static %}
 <!doctype html>
 <html lang="uz" class="h-full"
-  x-data="{ dark: (localStorage.theme === 'dark') }"
-  x-init="$watch('dark', v => { localStorage.theme = v ? 'dark' : 'light'; v ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark') })">
-<head>
+   x-data="{ dark: (localStorage.theme === 'dark'), fontScale: Number(localStorage.fontScale || 100), showAsma:false, showAuthor:false, inc(){ this.fontScale = Math.min(150, this.fontScale + 5) }, dec(){ this.fontScale = Math.max(80, this.fontScale - 5) } }"
+  x-init="$watch('dark', v => { localStorage.theme = v ? 'dark' : 'light'; v ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark') }); document.documentElement.style.fontSize = (localStorage.fontScale || 100) + '%'; $watch('fontScale', v => { localStorage.fontScale = v; document.documentElement.style.fontSize = v + '%'; });">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>{% block title %}Turon Ilm-Fan{% endblock %}</title>
+  <title>Turon Ilm-Fan</title>
+<!-- Chiroyli script shrift (fallback: Brush Script MT) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+   :root{ --brand:#0e6504; --brand-25:rgba(47,106,160,.25); }
+  :root{
+    --brand:#0e6504;
+    --brand-25: rgba(14,101,4,.25);
+    --brand-08: rgba(14,101,4,.08);
+  }
+
+  .green-frame{
+    position:relative;
+    border:1px solid var(--brand);
+    border-radius:16px;
+  }
+  .green-frame::after{
+    content:"";
+    position:absolute; inset:-6px;
+    border:1px solid var(--brand-25);
+    border-radius:20px;
+    pointer-events:none;
+  }
+
+  /* Brend yozuvi (Turon Ilm-Fan) */
+  .brand-title{
+    font-family: 'Great Vibes', 'Brush Script MT', cursive;
+    font-weight: 400;
+    letter-spacing: .3px;
+    line-height: 1;
+  }
+
+  /* Menyudagi tugmalar */
+  .link-pill{ padding:.25rem .75rem; border-radius:.375rem; transition: all .15s; }
+  .link-pill:hover{ background: var(--brand-08); color: var(--brand); }
+
+  /* Logo */
+  .brand-logo{ width: 64px; height: 64px; }
+  @media (min-width: 768px){ .brand-logo{ width: 72px; height: 72px; } }
+  @media (min-width: 1024px){ .brand-logo{ width: 80px; height: 80px; } }
+</style>
 
   <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-  tailwind.config = {
-    darkMode: 'class',
-    theme: {
-      extend: {
-        colors: { brand: { 600: '#0f5a46' } },   // << YASHIL
-        boxShadow: {
-          inset1: 'inset 0 1px 0 rgba(255,255,255,.5)',
-          glow: '0 10px 40px rgba(15,90,70,.15)'
-        },
-        borderRadius: { xl2: '1rem' }
-      }
-    }
-  }
-</script>
-
+  <script>tailwind.config={darkMode:'class',theme:{extend:{colors:{brand:{600:'#2F6AA0'}},boxShadow:{glow:'0 10px 40px rgba(47,106,160,.25)'}}}}</script>
 
   <!-- Alpine -->
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
   <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
-  <!-- Local styles for the “double frame” look -->
-
-
-<style>
-  body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif}
-  .ar{font-family:"Noto Naskh Arabic",serif;direction:rtl}
-  .brand-script{font-family:'Great Vibes','Brush Script MT',cursive}
-
-  :root{
-    /* brend ranglari */
-    --brand-600:#0f5a46;
-    --brand-600-28:rgba(15,90,70,.28);
-    --brand-600-08:rgba(15,90,70,.08);
-
-    /* global override uchun */
-    --brand-green:#0f4c3a;
-    --brand-green-700:#0d3f31;
-  }
-
-  /* ikki qavatli ramka */
-  .frame-blue{position:relative;border:1px solid var(--brand-600);border-radius:14px}
-  .frame-blue::after{content:"";position:absolute;inset:-6px;border:1px solid var(--brand-600-28);border-radius:18px;pointer-events:none}
-
-  .frame-silver{position:relative;border:1px solid rgba(15,23,42,.12);border-radius:14px;background-color:rgba(255,255,255,.7)}
-  .dark .frame-silver{background-color:rgba(2,6,23,.6);border-color:rgba(148,163,184,.15)}
-  .frame-silver::after{content:"";position:absolute;inset:-6px;border:1px solid rgba(15,23,42,.08);border-radius:18px;pointer-events:none}
-  .dark .frame-silver::after{border-color:rgba(148,163,184,.08)}
-
-  .link-pill{display:inline-block;padding:.25rem .75rem;border-radius:.5rem;color:var(--brand-600);transition:all .15s}
-  .link-pill:hover{background:var(--brand-600-08)}
-  .dark .link-pill{color:#7bd3b6}
-  .dark .link-pill:hover{background:rgba(148,163,184,.08)}
-
-  /* ====== KO'K -> YASHIL GLOBAL OVERRIDE ====== */
-  /* Tailwind oilalari: istalgan “blue/indigo/sky” soyasi */
-  [class*="bg-blue-"], [class*="bg-indigo-"], [class*="bg-sky-"] { background-color: var(--brand-green) !important; }
-  [class*="border-blue-"], [class*="border-indigo-"], [class*="border-sky-"] { border-color: var(--brand-green) !important; }
-  [class*="text-blue-"], [class*="text-indigo-"], [class*="text-sky-"] { color: var(--brand-green) !important; }
-
-  /* Arbitrary rang ishlatilgan bo‘lsa, masalan bg-[#0b2d5d] */
-  .bg-\[\#0b2d5d\], .border-\[\#0b2d5d\] {
-    background-color: var(--brand-green) !important;
-    border-color: var(--brand-green) !important;
-  }
-
-  /* Bootstrap’ga mos */
-  .card, .panel { border-color: var(--brand-green) !important; }
-  .card-header, .panel-heading { background: var(--brand-green) !important; color:#fff !important; border-color: var(--brand-green) !important; }
-  .btn, .btn-primary { background: var(--brand-green) !important; border-color: var(--brand-green) !important; color:#fff !important; }
-  .btn:hover, .btn-primary:hover { background: var(--brand-green-700) !important; border-color: var(--brand-green-700) !important; }
-
-  /* Input focus – yashil aurali */
-  input[type="text"], input[type="number"], select, .form-control {
-    border-radius:10px;
-    border:1px solid rgba(15,76,58,.25);
-  }
-  input:focus, select:focus, .form-control:focus {
-    outline:none;
-    border-color:var(--brand-green) !important;
-    box-shadow:0 0 0 3px rgba(15,76,58,.15) !important;
-  }
-</style>
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif}
+    .ar{font-family:"Noto Naskh Arabic",serif;direction:rtl}
+    .logo-script{font-family:"Brush Script MT","Lucida Handwriting",cursive}
+  </style>
 </head>
 
-<body class="min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100"
-      style="background-image:url('{% static "img/pattern.png.png" %}');background-repeat:repeat;background-size:auto;">
+<body class="min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100">
 
-  <!-- === TOP DATE STRIP === -->
-  <div class="bg-white/80 dark:bg-slate-900/80 border-b border-slate-200/70 dark:border-slate-800/70">
+  <!-- TOP DATE STRIP -->
+  <div class="bg-white/80 dark:bg-slate-900/80 border-b" style="border-color: var(--brand-25)">
     <div class="max-w-7xl mx-auto px-4 py-2 flex items-center justify-between text-sm">
       <div class="flex items-center gap-4">
-        <div><b>{{ greg_date_uz }}</b></div>
-        <div><span class="ar">{{ hijri_date_ar }}</span></div>
+        <div> <b>{{ greg_date_uz }}</b></div>
+        <div> <span class="ar">{{ hijri_date_ar }}</span></div>
       </div>
+
+      
       <button @click="dark=!dark"
               class="rounded-md px-3 py-1.5 text-xs bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700">
         <span x-show="!dark">🌙 Qorong‘i</span>
@@ -118,114 +85,155 @@
     </div>
   </div>
 
-  <!-- === HEADER (Logo + Title + Top nav) === -->
+  <!-- HEADER: CENTERED LOGO + TITLE -->
   <header class="bg-white/85 dark:bg-slate-900/85 backdrop-blur">
-    <div class="max-w-7xl mx-auto px-4 py-5 flex flex-col items-center gap-3">
-      <div class="frame-blue bg-white/70 dark:bg-slate-900/70 shadow-sm px-5 py-3">
-        <a href="{% url 'home' %}" class="flex items-center gap-4">
-          <img src="{% static 'img/turon-logo.png.webp' %}" alt="Turon" class="h-14 w-14 md:h-16 md:w-16 object-contain">
-          <div class="brand-script text-4xl md:text-5xl lg:text-6xl text-slate-800/90 dark:text-white/90">Turon Ilm-Fan</div>
+  <div class="max-w-7xl mx-auto px-4 py-5 flex flex-col items-center">
+
+    <!-- LOGO + NOM (markazda) va o'ng tomonda harakat tugmalari -->
+    <div class="relative w-full flex items-center justify-center">
+      <div class="green-frame bg-white/70 dark:bg-slate-900/70 shadow-sm px-5 py-3">
+        <a href="{% url 'home' %}" class="flex items-center gap-5">
+          <img
+            src="{% static 'img/tasnim.png' %}"
+            alt="Turon"
+            class="h-14 w-14 md:h-16 md:w-16 object-contain"
+
+          />
+          <span class="brand-title text-4xl md:text-5xl lg:text-6xl
+                       text-slate-800/90 dark:text-white/90">
+            Turon Ilm-Fan
+          </span>
         </a>
       </div>
+<img src="{% static 'img/logo2.png' %}" alt="Logo"
+           class="absolute left-24 top-1/2 -translate-y-1/3 h-24 w-26 md:h-34 md:w-34 object-contain"/>
+       <!-- O'ng tomondagi tugmalar: matn kattaligi boshqaruvi -->
+      <div class="absolute right-0 top-1/2 -translate-y-1/2 flex items-center gap-2">
+        <div class="flex items-center gap-1 rounded-lg bg-white/80 dark:bg-slate-900/60 shadow-sm" style="border:1px solid var(--brand)">
+          <button @click="dec()" title="Matnni kichraytirish"
+                  class="px-2.5 py-1 text-sm hover:bg-slate-100 dark:hover:bg-slate-800/60 rounded-l-lg">
+            A-
+          </button>
+          <div class="px-2 py-1 text-xs select-none" style="border-left:1px solid var(--brand-25); border-right:1px solid var(--brand-25)">
+            <span x-text="fontScale + '%' "></span>
+          </div>
+          <button @click="inc()" title="Matnni kattalashtirish"
+                  class="px-2.5 py-1 text-sm hover:bg-slate-100 dark:hover:bg-slate-800/60 rounded-r-lg">
+            A+
+          </button>
+        </div>
+        <!-- 99 ismlar tugmasi -->
+        <button @click="showAsma = true" title="Allohning 99 ismlari"
+                class="px-3 py-1.5 text-sm rounded-lg bg-white/80 dark:bg-slate-900/60 shadow-sm hover:bg-slate-100 dark:hover:bg-slate-800/60"
+                style="border:1px solid var(--brand)">
+          99 Ism
+        </button>
 
-      <nav class="text-[15px] flex items-center flex-wrap justify-center text-slate-700 dark:text-slate-200">
-        <a href="{% url 'home' %}"               class="link-pill">Asosiy sahifa</a>
-        <span class="mx-2 text-brand-600/70">|</span>
-        <a href="{% url 'suralar' %}"            class="link-pill">Suralar</a>
-        <span class="mx-2 text-brand-600/70">|</span>
-        <a href="{% url 'kokler_index' %}"       class="link-pill">Ildizlar</a>
-        <span class="mx-2 text-brand-600/70">|</span>
-        <a href="{% url 'fihrist_index' %}"      class="link-pill">Fihrist</a>
-        <span class="mx-2 text-brand-600/70">|</span>
-        <a href="{% url 'search' %}"             class="link-pill">Qur'ondan qidirish</a>
-      </nav>
+        <!-- Muallif haqida tugmasi -->
+        <button @click="showAuthor = true" title="Muallif haqida"
+                class="px-3 py-1.5 text-sm rounded-lg bg-white/80 dark:bg-slate-900/60 shadow-sm hover:bg-slate-100 dark:hover:bg-slate-800/60"
+                style="border:1px solid var(--brand)">
+          Muallif haqida
+        </button>
+      </div>
     </div>
-  </header>
+    <!-- LOGO tagidagi NAV – yashil ajratkichlar bilan -->
+    <nav class="mt-4 text-[15px] flex items-center flex-wrap justify-center text-slate-700 dark:text-slate-200">
+      <a href="{% url 'home' %}"    class="link-pill">Asosiy sahifa</a>
+      <span class="mx-2 text-[#0e6504]/70">|</span>
+      <a href="{% url 'suralar' %}" class="link-pill">Suralar</a>
+      <span class="mx-2 text-[#0e6504]/70">|</span>
+      <a href="{% url 'kokler' %}"  class="link-pill">Ildizlar</a>
+      <span class="mx-2 text-[#0e6504]/70">|</span>
+      <a href="{% url 'fihrist' %}" class="link-pill">Fihrist</a>
+      <span class="mx-2 text-[#0e6504]/70">|</span>
+      <a href="{% url 'search' %}"  class="link-pill">Qur'onda qidirish</a>
+    </nav>
+  </div>
+</header>
+ 
+  <!-- Asma'ul Husna modal -->
+  <div x-show="showAsma" x-transition.opacity class="fixed inset-0 z-50" style="display:none">
+    <div class="absolute inset-0 bg-black/50" @click="showAsma=false"></div>
+    <div class="relative max-w-5xl mx-auto mt-10 bg-white dark:bg-slate-900 rounded-xl shadow-xl p-4">
+      <div class="flex items-center justify-between mb-2">
+        <h3 class="text-lg font-semibold">Allohning 99 ismlari</h3>
+        <button @click="showAsma=false" class="px-3 py-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60">✕</button>
+      </div>
+      <div class="h-[70vh] overflow-auto">
+        <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+          {% for it in asmaul_husna %}
+          <div class="rounded-lg border border-slate-200/70 dark:border-slate-800/60 bg-white/90 dark:bg-slate-900/60 p-3">
+            <div class="text-2xl ar text-center mb-1">{{ it.name_ar }}</div>
+            <div class="text-center text-slate-700 dark:text-slate-200 text-sm">{{ it.meaning_uz }}</div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <!-- === MAIN (Sidebar + Content) === -->
-  <main class="max-w-7xl mx-auto px-4 py-8 grid md:grid-cols-[300px,1fr] gap-8">
+  <!-- Muallif haqida modal -->
+  <div x-show="showAuthor" x-transition.opacity class="fixed inset-0 z-50" style="display:none">
+    <div class="absolute inset-0 bg-black/50" @click="showAuthor=false"></div>
+    <div class="relative max-w-4xl mx-auto mt-10 bg-white dark:bg-slate-900 rounded-xl shadow-xl p-4">
+      <div class="flex items-center justify-between mb-2">
+        <h3 class="text-lg font-semibold">Muallif haqida</h3>
+        <button @click="showAuthor=false" class="px-3 py-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60">✕</button>
+      </div>
+      <div class="prose max-w-none dark:prose-invert leading-relaxed text-sm md:text-base">
+        <p>Ushbu dastur muallifi <b>Sardorxon Jahongir</b> 1977-yil Toshkent shahrida tavallud topgan. Imom Buxoriy nomli Toshkent Islom instituti va Mirzo Ulug'bek nomidagi O'zbekiston Milliy universitetini tugallab, islomshunos va filolog mutaxassisligi bo'yicha bakalavr darajasini olgan. Dastlabki ilmiy faoliyatini O'zbekiston Milliy universitetida arab tilidan saboq berish bilan boshlagan. Shuningdek, Misr Arab respublikasi elchixonasi qoshidagi fan va ta'lim markazining o'quv bo'limida ham faoliyat olib borgan.</p>
+        <p>U nufuzli nashriyotlarda rahbar va muharrir lavozimlarida ishlab, mamlakatimizdagi ko'plab ilmiy-ma'rifiy kitoblar chop etilishida o'zining munosib hissasini qo'shgan. Ilmiy faoliyatini davom ettirish maqsadida bir qancha xorijiy davlatlarda malaka oshirgan. Jumladan, so'nggi o'n yil mobaynida Turkiya Respublikasida bo'lib, u yerdagi Kavkaz Davlat universitetining dinshunoslik fakultetida "Tafsirshunoslik" yo'nalishi bo'yicha magistr darajasini olgan va nomzodlik dissertatsiyasini yoqlagan.</p>
+        <p>Sardorxon Jahongir xorijda tashkil etilgan "Turkiston sayyidlari va eshonlari" xalqaro jamiyatining asoschisi va raisi hisoblanadi. Jamiyat hozirda dunyoning yigirmaga yaqin shajarashunoslikka doir tashkilotlari bilan o'zaro hamkorlik aloqalarini yo'lga qo'ygan.</p>
+        <p>Muallif xorijda bir qancha ilmiy-amaliy konferensiyalar tashkilotchisi va qatnashchisi hisoblanadi. Uning muallifligida chet ellarda ko'plab ilmiy maqolalar va kitoblar nashr qilingan.</p>
+        <p><i>Sardorxon Jahongir tarjimasi ostida</i> mamlakatimizda ilk bora nashr qilingan "Qur'oni Karim ma'nolarining so'zma-so'z tarjimasi" kitobi islomshunoslik borasida fundamental ishlardan biri bo'lib, qisqa muddat ichida ilm ahli orasida e'tibor qozondi.</p>
+        <p>Islomshunoslik fanlari bo'yicha PhD doktori, tilshunos olim Sardorxon Jahongir arab, fors, ingliz, rus va turk tillarini mukammal bilganligi bois ushbu tillardan milliy va xorijiy sertifikatlarga ega bo'ldi. Ayni damda u O'zbekiston Islom sivilizatsiyasi markazining mustaqil tadqiqotchisi va respublikamizdagi "Turon" o'quv markazi tarmoqlarining ta'sischisi va rahbari bo'lib, u yerda tinglovchilarga chet tillaridan saboq berib kelmoqda.</p>
+        <h4 class="mt-4 font-semibold">Maqsadimiz</h4>
+        <p>Milliy qadriyatlarimiz hamda ma'naviy boy merosimizni tiklash va ularni puxta o'rganish, uning mazmun-mohiyati va ahamiyatini xalqimiz o'rtasida targ'ib etish, ajdodlarimiz bo'lgan Imom Buxoriy, Termiziy, Nasafiy va Zamaxshariy singari ulamolar izidan borish, ulardan bizlarga meros bo'lib kelayotgan va saqlanayotgan tarixiy hamda nodir qo'lyozmalarni avlodlarga yetkazish, ajdodlarimiz hayoti, axloqi va yuksak ma'naviyatini ifodalovchi matnlarni xalqimizga yetkazib, yoshlarimiz qalbida ular qoldirgan merosga ehtirom, izzat va muhabbat tuyg'usini shakllantirishdir.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN: LEFT MENU + CONTENT -->
+  <main class="max-w-7xl mx-auto px-4 py-8 grid md:grid-cols-[270px,1fr] gap-8">
     <!-- Sidebar -->
-    <aside class="w-full">
-      <div class="frame-blue bg-white/70 dark:bg-slate-900/70 shadow-sm px-5 py-3 mb-3">
-        <div class="px-2 py-2 text-lg font-semibold">Menyu</div>
-      </div>
+    <!-- CHAP MENYU -->
+<aside class="w-full max-w-xs">
+  <div class="rounded-xl border border-slate-200/60 dark:border-slate-800/60 bg-white/80 dark:bg-slate-900/60">
+    </div>
+    <div class="green-frame bg-white/70 dark:bg-slate-900/70 shadow-sm px-5 py-3">
+    <div class="px-4 py-3 text-lg font-semibold border-b border-slate-200/60 dark:border-slate-800/60">
+      Menyu
+       </div>
+    </div>
+    <div class="green-frame bg-white/70 dark:bg-slate-900/70 shadow-sm px-5 py-3">
+    <nav class="p-2 text-[15px]">
+      <a href="{% url 'home' %}" class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60 {% if request.path == '/' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">Asosiy sahifa</a>
+      <a href="{% url 'suralar' %}" class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60 {% if request.path|slice:':9' == '/suralar/' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">Suralar</a>
+      <a href="{% url 'kokler' %}" class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60 {% if request.path|slice:':8' == '/kokler' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">Ildizlar</a>
+      <a href="{% url 'fihrist' %}" class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60 {% if request.path|slice:':9' == '/fihrist/' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">Fihrist</a>
+      <a href="{% url 'taqqoslash' %}" class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60 {% if request.path|slice:':12' == '/taqqoslash' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">Oyatlarni taqqoslash</a>
+      <a href="{% url 'satrlar' %}" class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60 {% if request.path|slice:':9' == '/satrlar' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">Satrlar</a>
+      <a href="{% url 'el_mufredat' %}" class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60 {% if request.path|slice:':13' == '/el-mufredat' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">Al-Mufradot</a>
+      <a href="{% url 'el_mucem' %}" class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60 {% if request.path|slice:':9' == '/el-mucem' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">Al-Mu'jam al-Mufahras</a>
 
-      <div class="frame-blue bg-white/70 dark:bg-slate-900/70 shadow-sm px-2 py-3">
-        <nav class="p-1 text-[15px]">
-          <a href="{% url 'home' %}"
-             class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60
-             {% if request.path == '/' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">
-            Asosiy sahifa
-          </a>
+      <a href="{% url 'search' %}" class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60 {% if request.path|slice:':9' == '/qidiruv' or request.path|slice:':9' == '/search/' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">Qur'onda qidirish</a>
+    </nav>
+    </div>
+  </div>
+</aside>
 
-          <a href="{% url 'suralar' %}"
-             class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60
-             {% if request.path|slice:':9' == '/suralar/' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">
-            Suralar
-          </a>
 
-          <a href="{% url 'kokler_index' %}"
-             class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60
-             {% if request.path|slice:':8' == '/kokler' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">
-            Ildizlar
-          </a>
-
-          <a href="{% url 'fihrist_index' %}"
-             class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60
-             {% if request.path|slice:':9' == '/fihrist/' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">
-            Mundarija
-          </a>
-
-          <a href="{% url 'taqqoslash' %}"
-             class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60
-             {% if request.path|slice:':12' == '/taqqoslash' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">
-            Oyatlarni taqqoslash
-          </a>
-
-          <a href="{% url 'satrlar' %}"
-             class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60
-             {% if request.path|slice:':9' == '/satrlar' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">
-            Satrlar
-          </a>
-
-          <a href="{% url 'el_mufredat' %}"
-             class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60
-             {% if request.path|slice:':13' == '/el-mufredat' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">
-            Mufradot
-          </a>
-
-          <a href="{% url 'el_mucem' %}"
-             class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60
-             {% if request.path|slice:':9' == '/el-mucem' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">
-            Al-Mu'jam al-Mufahras
-          </a>
-
-          <a href="{% url 'search' %}"
-             class="block px-3 py-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60
-             {% if request.path|slice:':8' == '/search' %}bg-slate-100 dark:bg-slate-800/60 font-semibold{% endif %}">
-            Qur'ondan qidirish
-          </a>
-        </nav>
-      </div>
-    </aside>
-
-    <!-- Content -->
+    <!-- Page content -->
     <section>
       {% block content %}{% endblock %}
     </section>
   </main>
 
-  <!-- Right tools panel (ixtiyoriy) -->
-  <aside class="max-w-7xl mx-auto px-4">
-    {% include "core/_tools_right.html" %}
-  </aside>
-
-  <!-- Footer -->
-  <footer class="mt-10 border-t border-slate-200/70 dark:border-slate-800/70">
+  <footer class="mt-10 border-t" style="border-color: var(--brand-25)">
     <div class="max-w-7xl mx-auto px-4 py-6 text-sm text-slate-500">
       © {{ now|date:"Y" }} Turon Ilm-Fan
     </div>
   </footer>
-
 </body>
 </html>

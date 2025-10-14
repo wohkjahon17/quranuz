@@ -7,7 +7,6 @@ class Surah(models.Model):
     name_uz = models.CharField(max_length=150, blank=True)
     ayah_count = models.PositiveIntegerField(default=7)
 
-    # YANGI maydonlar:
     name_uz = models.CharField(max_length=96, blank=True)      # Fotiha, Baqara, …
     nuzul_order = models.PositiveSmallIntegerField(null=True, blank=True)
     nuzul_place = models.CharField(max_length=10, blank=True)  # "Makkiy" / "Madaniy"
