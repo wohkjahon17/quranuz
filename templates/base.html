@@ -4,6 +4,7 @@
   x-data="{
     dark: (localStorage.theme === 'dark'),
     fontScale: parseInt(localStorage.fontScale || '100'),
+    showAsma: false,
     inc(){ if(this.fontScale < 130){ this.fontScale += 5 } },
     dec(){ if(this.fontScale > 85){ this.fontScale -= 5 } }
   }"
@@ -134,6 +135,12 @@
             A+
           </button>
         </div>
+        <!-- 99 ismlar tugmasi -->
+        <button @click="showAsma = true" title="Allohning 99 ismlari"
+                class="px-3 py-1.5 text-sm rounded-lg bg-white/80 dark:bg-slate-900/60 shadow-sm hover:bg-slate-100 dark:hover:bg-slate-800/60"
+                style="border:1px solid var(--brand)">
+          99 Ism
+        </button>
       </div>
     </div>
 
@@ -151,6 +158,27 @@
     </nav>
   </div>
 </header>
+  
+  <!-- Asma'ul Husna modal -->
+  <div x-show="showAsma" x-transition.opacity class="fixed inset-0 z-50" style="display:none">
+    <div class="absolute inset-0 bg-black/50" @click="showAsma=false"></div>
+    <div class="relative max-w-5xl mx-auto mt-10 bg-white dark:bg-slate-900 rounded-xl shadow-xl p-4">
+      <div class="flex items-center justify-between mb-2">
+        <h3 class="text-lg font-semibold">Allohning 99 ismlari</h3>
+        <button @click="showAsma=false" class="px-3 py-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60">✕</button>
+      </div>
+      <div class="h-[70vh] overflow-auto">
+        <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+          {% for it in asmaul_husna %}
+          <div class="rounded-lg border border-slate-200/70 dark:border-slate-800/60 bg-white/90 dark:bg-slate-900/60 p-3">
+            <div class="text-2xl ar text-center mb-1">{{ it.name_ar }}</div>
+            <div class="text-center text-slate-700 dark:text-slate-200 text-sm">{{ it.meaning_uz }}</div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- MAIN: LEFT MENU + CONTENT -->
   <main class="max-w-7xl mx-auto px-4 py-8 grid md:grid-cols-[270px,1fr] gap-8">
     <!-- Sidebar -->

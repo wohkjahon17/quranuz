@@ -5,6 +5,12 @@ try:
 except Exception:
     convert = None
 
+# 99 Ismlar ro'yxati (Asma'ul Husna) – mavjud bo'lsa import qilamiz
+try:
+    from quranuz.core.constants import ASMA_UL_HUSNA  # type: ignore
+except Exception:
+    ASMA_UL_HUSNA = []
+
 UZ_MONTHS = [
     "Yanvar", "Fevral", "Mart", "Aprel", "May", "Iyun",
     "Iyul", "Avgust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"
@@ -29,4 +35,4 @@ def dates(request):
         # kutubxona yo‘q bo‘lsa, vaqtincha bo‘sh
         h_str = "—"
 
-    return {"greg_date_uz": g, "hijri_date_ar": h_str}
+    return {"greg_date_uz": g, "hijri_date_ar": h_str, "asmaul_husna": ASMA_UL_HUSNA}
